@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>no se xd</title>
+    <link href="style.css" r el="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Picas & Fijas</h1>
+    <div id="escoger" style="width: 100%">
+      <form id="numberForm" action="" method="get">
+        <label for="numero">Ingrese un número de 4 dígitos</label><br />
+        <input
+          type="number"
+          max="9999"
+          min="0000"
+          id="numero"
+          placeholder="1234"
+        /><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <div style="display: none"></div>
+    <div id="mostrar" style="display: none">
+      <p id="numeroreal" />
+      <br />
+      <p id="numeroadivinado" />
+      <br />
+      <br />
+      <p id="estadojuego" />
+      <br />
+      <br />
+    </div>
+    <button id="computar" style="display: none" onclick="computar()">
+      continuar
+    </button>
+    <div id="juegoterminado" style="display: none">
+      <a id="intentos" />
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
