@@ -1,6 +1,7 @@
+from agente import Agente
 from settings import X, Y
-from pyscreeze import pixel
+import pyscreeze 
 
-pixel = pixel(X,Y);
-
-print(pixel)
+agente = Agente(X,Y)
+while True:
+    agente.compute()

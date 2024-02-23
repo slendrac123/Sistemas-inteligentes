@@ -1,6 +1,6 @@
 import pyautogui
 
-file = open("settings.py","w")
+file = open("src/settings.py","w")
 
 #Detecta la posición del mouse
 x,y = pyautogui.position()
