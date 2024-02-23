@@ -1,3 +1,6 @@
 from settings import X, Y
+from pyscreeze import pixel
 
-print(X,Y)
+pixel = pixel(X,Y);
+
+print(pixel)
