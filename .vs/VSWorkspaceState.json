@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\tetris",
+    "\\tetris\\bin",
+    "\\tetris\\lib",
+    "\\tetris\\lib\\python3.12",
+    "\\tetris\\lib\\python3.12\\site-packages",
+    "\\tetris\\lib\\python3.12\\site-packages\\pip",
+    "\\tetris\\lib\\python3.12\\site-packages\\pyscreeze",
+    "\\tetris\\src"
+  ],
+  "SelectedNode": "\\tetris\\src\\main.py",
+  "PreviewInSolutionExplorer": false
+}
