@@ -1,56 +1,44 @@
 import pyautogui
 import pyscreeze
 
+
 #36, 39, 58
 class Agente:
-    X :int = 0
-    Y :int = 0
-    self.pieza : str
-    #0 si no hay nada y 1 si hay algo 
-    estado_tablero = [0] * 200
+  X: int = 0
+  Y: int = 0
+  pieza: str
+  #0 si no hay nada y 1 si hay algo
+  estado_tablero = [0] * 200
 
-    def __init__(self, X :int, Y :int ):
-        self.X=X
-        self.Y=Y
+  def __init__(self, X: int, Y: int):
+    self.X = X
+    self.Y = Y
 
-    def determinar_pieza(self):
-        
-        #print( "X:{} Y: {} Pixel: {}".format(self.X, self.Y, pyscreeze.pixel(self.X , self.Y)))
-        color = pyscreeze.pixel(self.X , self.Y)
-        #creo que esto sería más óptimo, pero tal vez el compilador óptimize más lo de abajo 
-        #if color[0] == 255:
-        #    if color[1] > 128:
-        #        if color[2] == 117:
-        #            return "O"
-        #        return "L"
-        #    elif color[2] == 255:
-        #        return "T"
-        #    return "Z"
-        #elif color[1] == 255:
-        #    if color[2] == 236:
-        #        return "I"
-        #    return "S"
-        #return "J"
-        if color == (116, 255, 236):
-            return "I"
-        elif color == (236, 255, 116):
-            return "S"
-        elif color == (255, 118, 128):
-            return "Z"
-        elif color == (255, 188, 118):
-            return "L"
-        elif color == (154, 127, 255):
-            return "J"
-        elif color == (255, 128, 255):
-            return "T"
-        elif color == (255, 255, 117):
-            return "O"
-        else:
-            return self.determinar_pieza()
-        
-    def move(self):
-        self.pieza = self.determinar_pieza()
+  def determinar_pieza(self):
+    #print( "X:{} Y: {} Pixel: {}"
+    # .format(self.X, self.Y, pyscreeze.pixel(self.X , self.Y)))
+    color = pyscreeze.pixel(self.X, self.Y)
 
-    def compute(self):
-        self.move()
-    
+    if color in ((116, 255, 235), (115, 255, 232), (80, 240, 185)):
+      return "I"
+    elif color in ((237, 255, 116), (234, 255, 114), (181, 240, 78)):
+      return "S"
+    elif color in ((255, 119, 130), (254, 116, 127), (229, 72, 80)):
+      return "Z"
+    elif color in ((255, 189, 118), (254, 186, 116), (232, 134, 74)):
+      return "L"
+    elif color in ((153, 127, 255), (148, 123, 251), (92, 71, 190)):
+      return "J"
+    elif color in ((255, 128, 255), (251, 125, 250), (195, 74, 182)):
+      return "T"
+    elif color in ((255, 255, 118), (255, 252, 116), (236, 206, 76)):
+      return "O"
+    else:
+      return self.determinar_pieza()
+
+  def move(self):
+    self.pieza = self.determinar_pieza()
+    print(self.pieza)
+
+  def compute(self):
+    self.move()
