@@ -2,6 +2,7 @@ import pyautogui
 import pyscreeze
 
 
+
 #36, 39, 58
 class Agente:
   X: int = 0
@@ -19,19 +20,19 @@ class Agente:
     # .format(self.X, self.Y, pyscreeze.pixel(self.X , self.Y)))
     color = pyscreeze.pixel(self.X, self.Y)
 
-    if color in ((116, 255, 235), (115, 255, 232), (80, 240, 185)):
+    if color in ((116, 255, 235), (80, 240, 185)):
       return "I"
-    elif color in ((237, 255, 116), (234, 255, 114), (181, 240, 78)):
+    elif color in ((237, 255, 116), (181, 240, 78)):
       return "S"
-    elif color in ((255, 119, 130), (254, 116, 127), (229, 72, 80)):
+    elif color in ((255, 119, 130), (229, 72, 80)):
       return "Z"
-    elif color in ((255, 189, 118), (254, 186, 116), (232, 134, 74)):
+    elif color in ((255, 189, 118), (232, 134, 74)):
       return "L"
-    elif color in ((153, 127, 255), (148, 123, 251), (92, 71, 190)):
+    elif color in ((153, 127, 255), (92, 71, 190)):
       return "J"
-    elif color in ((255, 128, 255), (251, 125, 250), (195, 74, 182)):
+    elif color in ((255, 128, 255), (195, 74, 182)):
       return "T"
-    elif color in ((255, 255, 118), (255, 252, 116), (236, 206, 76)):
+    elif color in ((255, 255, 118), (236, 206, 76)):
       return "O"
     else:
       return self.determinar_pieza()
@@ -39,6 +40,7 @@ class Agente:
   def move(self):
     self.pieza = self.determinar_pieza()
     print(self.pieza)
+
 
   def compute(self):
     self.move()
