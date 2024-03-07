@@ -1,9 +1,9 @@
 import pyautogui
 
-file = open("src/settings.py","w")
+file = open("src/settings.py", "w")
 
-#Detecta la posición del mouse
-x,y = pyautogui.position()
+# Detecta la posición del mouse
+x, y = pyautogui.position()
 
-#la escribe a un archivo settings.py
-file.write("X = " + str(x) + "\nY = " +str(y))
+# la escribe a un archivo settings.py
+file.write("X = " + str(x) + "\nY = " + str(y))
