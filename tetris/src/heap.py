@@ -1,9 +1,10 @@
 class MinHeap:
-    
-    def __init__(self, size):
+
+    def __init__(self, size, data):
         self.maxSize = size
         self.size = 0
-        self.heap = [None] * size
+        # self.heap = [None] * size
+        self.heap = [0] * size
 
     def parent(self, index):
         return index // 2
@@ -16,7 +17,7 @@ class MinHeap:
 
     def siftUp(self, index):
         while index > 1 and self.heap[self.parent(index) - 1] > self.heap[index - 1]:
-            self.heap[index - 1]  = self.heap[self.parent(index) - 1]
+            self.heap[index - 1] = self.heap[self.parent(index) - 1]
             self.heap[self.parent(index) - 1] = self.heap[index - 1]
             index = self.parent(index)
 
@@ -29,7 +30,7 @@ class MinHeap:
         if right <= self.size and self.heap[right - 1] < self.heap[maxIndex - 1]:
             maxIndex = right
         if index != maxIndex:
-            self.heap[index - 1]  = self.heap[maxIndex - 1]
+            self.heap[index - 1] = self.heap[maxIndex - 1]
             self.heap[maxIndex - 1] = self.heap[index - 1]
             self.siftDown(maxIndex)
 
@@ -65,6 +66,9 @@ class MinHeap:
         self.siftDown(1)
         return result
 
+    def getMin(self):
+        return self.heap[0]
+
     def remove(self, index):
         self.heap[index - 1] = float('-inf')
         self.siftUp(index)
@@ -82,4 +86,3 @@ class MinHeap:
         for i in range(self.size):
             print(self.heap[i], end=" ")
         print()
-
