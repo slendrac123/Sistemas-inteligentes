@@ -2,9 +2,10 @@ class MinHeap:
 
     def __init__(self, size, data):
         self.maxSize = size
-        self.size = 0
+        self.size = 10
         # self.heap = [None] * size
-        self.heap = [0] * size
+        self.heap = ((0, i) for i in data)
+        print(self)
 
     def parent(self, index):
         return index // 2
@@ -16,22 +17,24 @@ class MinHeap:
         return index * 2 + 1
 
     def siftUp(self, index):
-        while index > 1 and self.heap[self.parent(index) - 1] > self.heap[index - 1]:
+        while index > 1 and self.heap[self.parent(index) - 1][0] > self.heap[index - 1][0]:
+            buff = self.heap[index - 1]
             self.heap[index - 1] = self.heap[self.parent(index) - 1]
-            self.heap[self.parent(index) - 1] = self.heap[index - 1]
+            self.heap[self.parent(index) - 1] = buff
             index = self.parent(index)
 
     def siftDown(self, index):
         maxIndex = index
         left = self.leftChild(index)
-        if left <= self.size and self.heap[left - 1] < self.heap[maxIndex - 1]:
+        if left <= self.size and self.heap[left - 1][0] < self.heap[maxIndex - 1][0]:
             maxIndex = left
         right = self.rightChild(index)
-        if right <= self.size and self.heap[right - 1] < self.heap[maxIndex - 1]:
+        if right <= self.size and self.heap[right - 1][0] < self.heap[maxIndex - 1][0]:
             maxIndex = right
         if index != maxIndex:
+            buff = self.heap[index-1]
             self.heap[index - 1] = self.heap[maxIndex - 1]
-            self.heap[maxIndex - 1] = self.heap[index - 1]
+            self.heap[maxIndex - 1] = buff
             self.siftDown(maxIndex)
 
     def heapify(self, arr):
@@ -40,6 +43,7 @@ class MinHeap:
         for i in range(self.size // 2, 0, -1):
             self.siftDown(i)
 
+    # esta no funcionara xd
     def heapSort(self):
         save = self.size
         while self.size > 1:
@@ -70,13 +74,13 @@ class MinHeap:
         return self.heap[0]
 
     def remove(self, index):
-        self.heap[index - 1] = float('-inf')
+        self.heap[index - 1][0] = float('-inf')
         self.siftUp(index)
         self.extractMin()
 
     def changePriority(self, index, dato):
-        oldp = self.heap[index - 1]
-        self.heap[index - 1] = dato
+        oldp = self.heap[index - 1][0]
+        self.heap[index - 1][0] = dato
         if dato < oldp:
             self.siftUp(index)
         else:
