@@ -11,22 +11,22 @@ class Agente:
     pieza: Piece
     # 0 si no hay nada y 1 si hay algo
     heap: MinHeap
-    estado_tablero: [0] * 10
+    estado_tablero: list
 
     def __init__(self, X: int, Y: int):
         self.X = X
         self.Y = Y
         # iniciar el heap en 0 junto con el índice horizontal
-        self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-
+        self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) 
+        self.estado_tablero = [0] *10
         # revisa que la altura sea la correcta para no dejar huecos
     def is_move_possible(self, altitud, index):
-        print("deberia hacer algo pero no se como xd")
         idx = 0
         # las coordenadas estan en formato de array[array[tuplas]]
         for x in self.pieza.arr_coordenadas:
             terminado = True
             coord = []
+            #print("x : "+str(x))
             for i in x:
                 # si deja huecos marca como falso y deja de mirar ahí
                 # altitud [0] es la relativa de donde pondrá la pieza,
@@ -34,13 +34,25 @@ class Agente:
                 # i[0] es lo que ocupa la pieza en horizontal
                 # i[1] es lo que ocupa en vertical
                 try:
+                    if i[0] in coord:
+                        coord.append(i[0])
+                        continue
+                    coord.append(i[0])
+                    #print("i: "+str(i))
+                    #print("alt: " + str(altitud[0] + i[1]) +" index: "  + str(altitud[1] + i[0]))
+                    #print("altura necesaria: "+str(altitud[0] + i[1]))
+                    #print("altura real: " +str(self.estado_tablero[altitud[1]+ i[0]]))
+                    if(altitud[1]+i[0]< 0):
+                        raise IndexError
                     if (altitud[0] + i[1] !=
                             self.estado_tablero[altitud[1]+i[0]]):
                         terminado = False
                         break
                     # añade las coordenadas
-                    coord.append(i[0])
+
                 except IndexError:
+                    #print("error")
+                    terminado = False
                     break
                 # except:
                 #    break
@@ -49,12 +61,15 @@ class Agente:
                 c = Counter(coord)
                 for k in c.keys():
                     # actualiza el tablero y el heap
-                    self.estado_tablero[altitud[1]+k] += c[k]
+                    #print ("k: "+ str(k) +" c: "+ str(c[k]))
+                    #print("indice 1+k: " + str(altitud[1]+k))
+                    self.estado_tablero[altitud[1]+k] += c[k]                    
                     self.heap.changePriority(self.heap.getIndex(
                         altitud[1]+k), self.estado_tablero[altitud[1]+k])
                 # por cosas de la rotación hay un index que anota cuantos giros
                 # a su vez prioriza los estados horizontales
                 # hace las rotaciones
+                print(self.estado_tablero)
                 pyautogui.press('up', self.pieza.n_rotations[idx])
                 return True
             # lleva la cuenta de las rotaciones
@@ -69,7 +84,8 @@ class Agente:
         while not move:
             # buff es el índice a donde se movería la pieza
             buff = self.heap.heap[index]
-            move = self.is_move_possible(min, index)
+            #print(buff)
+            move = self.is_move_possible(buff, index)
             if (index < 9):
                 index += 1
             else:
@@ -106,6 +122,7 @@ class Agente:
         elif color in ((255, 255, 118), (236, 206, 76)):
             return Piece('O')
         else:
+            print(color)
             return self.determinar_pieza()
 
     def move(self):
