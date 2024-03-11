@@ -4,7 +4,7 @@ class MinHeap:
         self.maxSize = size
         self.size = 10
         # self.heap = [None] * size
-        self.heap = ((0, i) for i in data)
+        self.heap = [(0, i) for i in data]
         print(self)
 
     def parent(self, index):
@@ -17,7 +17,8 @@ class MinHeap:
         return index * 2 + 1
 
     def siftUp(self, index):
-        while index > 1 and self.heap[self.parent(index) - 1][0] > self.heap[index - 1][0]:
+        while (index > 1 and
+               self.heap[self.parent(index) - 1][0] > self.heap[index - 1][0]):
             buff = self.heap[index - 1]
             self.heap[index - 1] = self.heap[self.parent(index) - 1]
             self.heap[self.parent(index) - 1] = buff
@@ -26,10 +27,12 @@ class MinHeap:
     def siftDown(self, index):
         maxIndex = index
         left = self.leftChild(index)
-        if left <= self.size and self.heap[left - 1][0] < self.heap[maxIndex - 1][0]:
+        if (left <= self.size and
+                self.heap[left - 1][0] < self.heap[maxIndex - 1][0]):
             maxIndex = left
         right = self.rightChild(index)
-        if right <= self.size and self.heap[right - 1][0] < self.heap[maxIndex - 1][0]:
+        if (right <= self.size and
+                self.heap[right - 1][0] < self.heap[maxIndex - 1][0]):
             maxIndex = right
         if index != maxIndex:
             buff = self.heap[index-1]
@@ -74,6 +77,12 @@ class MinHeap:
         self.heap[index - 1][0] = float('-inf')
         self.siftUp(index)
         self.extractMin()
+
+    def getIndex(self, value):
+        for i in self.heap:
+            if i[1] == value:
+                return i
+        raise RuntimeError("No encontrado")
 
     def changePriority(self, index, dato):
         oldp = self.heap[index - 1][0]

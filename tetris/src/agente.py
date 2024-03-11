@@ -2,9 +2,9 @@ import pyautogui
 from piece import Piece
 import pyscreeze
 from heap import MinHeap
+from collections import Counter
 
 
-# 36, 39, 58
 class Agente:
     X: int = 0
     Y: int = 0
@@ -16,18 +16,26 @@ class Agente:
     def __init__(self, X: int, Y: int):
         self.X = X
         self.Y = Y
-        self.heap = MinHeap(10, (0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    def is_move_possible(self, altitud):
+        # revisa que la altura sea la correcta para no dejar huecos
+    def is_move_possible(self, altitud, index):
         print("deberia hacer algo pero no se como xd")
         idx = 0
         for x in self.pieza.arr_coordenadas:
             terminado = True
+            x = []
             for i in x:
-                if altitud[0] + i[1] != self.estado_tablero[altitud[1]-i[0]]:
+                if altitud[0] + i[1] != self.estado_tablero[altitud[1]+i[0]]:
                     terminado = False
                     break
+                x.append(i[0])
             if terminado:
+                c = Counter(x)
+                for k in c.keys():
+                    self.estado_tablero[altitud[1]+k] += c[k]
+                    self.heap.changePriority(self.heap.getIndex(
+                        altitud[1]+k), self.estado_tablero[altitud[1]+k])
                 for n in range(self.pieza.n_rotations[idx]):
                     pyautogui.press(['up'])
                 return True
@@ -36,11 +44,12 @@ class Agente:
 
     def determinar_move(self):
         move = False
-        idx = 0
+        index = 0
         while not move:
-            min = self.heap.heap[idx]
-            move = self.is_move_possible(min)
-            idx += 1
+            min = self.heap.heap[index]
+            move = self.is_move_possible(min, index)
+            if (index < 9):
+                index += 1
         pyautogui.press(['space'])
 
     def determinar_pieza(self):
