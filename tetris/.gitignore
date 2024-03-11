@@ -9,3 +9,9 @@ __pycache__/
 **.log
 
 src/settings.py
+
+.replit
+
+.git/
+
+src/pixels.py
