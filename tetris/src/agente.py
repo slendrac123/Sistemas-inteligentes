@@ -18,14 +18,30 @@ class Agente:
         self.Y = Y
         self.heap = MinHeap(10, (0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
 
-    def is_move_possible(altitud):
+    def is_move_possible(self, altitud):
         print("deberia hacer algo pero no se como xd")
+        idx = 0
+        for x in self.pieza.arr_coordenadas:
+            terminado = True
+            for i in x:
+                if altitud[0] + i[1] != self.estado_tablero[altitud[1]-i[0]]:
+                    terminado = False
+                    break
+            if terminado:
+                for n in range(self.pieza.n_rotations[idx]):
+                    pyautogui.press(['up'])
+                return True
+            idx += 1
+        return False
 
     def determinar_move(self):
-        move = []
-        while move == []:
-            min = self.estado_tablero.getMin()
-            print(min)
+        move = False
+        idx = 0
+        while not move:
+            min = self.heap.heap[idx]
+            move = self.is_move_possible(min)
+            idx += 1
+        pyautogui.press(['space'])
 
     def determinar_pieza(self):
         # print( "X:{} Y: {} Pixel: {}"

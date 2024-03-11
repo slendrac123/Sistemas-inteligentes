@@ -70,9 +70,6 @@ class MinHeap:
         self.siftDown(1)
         return result
 
-    def getMin(self):
-        return self.heap[0]
-
     def remove(self, index):
         self.heap[index - 1][0] = float('-inf')
         self.siftUp(index)
