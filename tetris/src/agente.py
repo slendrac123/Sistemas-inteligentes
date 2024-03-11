@@ -33,13 +33,19 @@ class Agente:
                 # altitud[1] es el índice horizontal
                 # i[0] es lo que ocupa la pieza en horizontal
                 # i[1] es lo que ocupa en vertical
-                if altitud[0] + i[1] != self.estado_tablero[altitud[1]+i[0]]:
-                    terminado = False
+                try:
+                    if (altitud[0] + i[1] !=
+                            self.estado_tablero[altitud[1]+i[0]]):
+                        terminado = False
+                        break
+                    # añade las coordenadas
+                    coord.append(i[0])
+                except IndexError:
                     break
-                # añade las coordenadas
-                coord.append(i[0])
+                # except:
+                #    break
             if terminado:
-                # cuenta las coordenadas
+                # cuenta las coordenadas y frecuencia
                 c = Counter(coord)
                 for k in c.keys():
                     # actualiza el tablero y el heap
@@ -48,11 +54,10 @@ class Agente:
                         altitud[1]+k), self.estado_tablero[altitud[1]+k])
                 # por cosas de la rotación hay un index que anota cuantos giros
                 # a su vez prioriza los estados horizontales
-                for n in range(self.pieza.n_rotations[idx]):
-                    # hace las rotaciones
-                    pyautogui.press(['up'])
+                # hace las rotaciones
+                pyautogui.press('up', self.pieza.n_rotations[idx])
                 return True
-            # leva la cuenta de las rotaciones
+            # lleva la cuenta de las rotaciones
             idx += 1
         return False
 
@@ -61,8 +66,6 @@ class Agente:
         # para recorrer el heap
         index = 0
         buff = 0
-        # todas las piezas las tomo como si estuvieran en el punto 4 horizontal
-        horizontal_mv = 4
         while not move:
             # buff es el índice a donde se movería la pieza
             buff = self.heap.heap[index]
@@ -74,13 +77,12 @@ class Agente:
                 pyautogui.press(['c'])
                 return
         # envia la pieza a donde la quiere ubicar
-        while (horizontal_mv != buff[1]):
-            if (horizontal_mv > buff[1]):
-                pyautogui.press(['left'])
-                horizontal_mv -= 1
-            else:
-                pyautogui.press(['right'])
-                horizontal_mv += 1
+        # todas las piezas las tomo como si estuvieran en el punto 4 horizontal
+        horizontal_mv = 4-buff[1]
+        if horizontal_mv > 0:
+            pyautogui.press('left', presses=horizontal_mv)
+        else:
+            pyautogui.press('right', presses=(-1*horizontal_mv))
         # la baja rápido
         pyautogui.press(['space'])
 
@@ -90,25 +92,26 @@ class Agente:
         color = pyscreeze.pixel(self.X, self.Y)
 
         if color in ((116, 255, 235), (80, 240, 185)):
-            self.pieza = Piece('I')
+            return Piece('I')
         elif color in ((237, 255, 116), (181, 240, 78)):
-            self.pieza = Piece('S')
+            return Piece('S')
         elif color in ((255, 119, 130), (229, 72, 80)):
-            self.pieza = Piece('Z')
+            return Piece('Z')
         elif color in ((255, 189, 118), (232, 134, 74)):
-            self.pieza = Piece('L')
+            return Piece('L')
         elif color in ((153, 127, 255), (92, 71, 190)):
-            self.pieza = Piece('J')
+            return Piece('J')
         elif color in ((255, 128, 255), (195, 74, 182)):
-            self.pieza = Piece('T')
+            return Piece('T')
         elif color in ((255, 255, 118), (236, 206, 76)):
-            self.pieza = Piece('O')
+            return Piece('O')
         else:
             return self.determinar_pieza()
 
     def move(self):
         self.pieza = self.determinar_pieza()
-        print(self.pieza)
+        print(self.pieza.nombre)
+        self.determinar_move()
 
     def compute(self):
         self.move()
