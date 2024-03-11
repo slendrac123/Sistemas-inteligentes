@@ -16,40 +16,72 @@ class Agente:
     def __init__(self, X: int, Y: int):
         self.X = X
         self.Y = Y
+        # iniciar el heap en 0 junto con el índice horizontal
         self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         # revisa que la altura sea la correcta para no dejar huecos
     def is_move_possible(self, altitud, index):
         print("deberia hacer algo pero no se como xd")
         idx = 0
+        # las coordenadas estan en formato de array[array[tuplas]]
         for x in self.pieza.arr_coordenadas:
             terminado = True
-            x = []
+            coord = []
             for i in x:
+                # si deja huecos marca como falso y deja de mirar ahí
+                # altitud [0] es la relativa de donde pondrá la pieza,
+                # altitud[1] es el índice horizontal
+                # i[0] es lo que ocupa la pieza en horizontal
+                # i[1] es lo que ocupa en vertical
                 if altitud[0] + i[1] != self.estado_tablero[altitud[1]+i[0]]:
                     terminado = False
                     break
-                x.append(i[0])
+                # añade las coordenadas
+                coord.append(i[0])
             if terminado:
-                c = Counter(x)
+                # cuenta las coordenadas
+                c = Counter(coord)
                 for k in c.keys():
+                    # actualiza el tablero y el heap
                     self.estado_tablero[altitud[1]+k] += c[k]
                     self.heap.changePriority(self.heap.getIndex(
                         altitud[1]+k), self.estado_tablero[altitud[1]+k])
+                # por cosas de la rotación hay un index que anota cuantos giros
+                # a su vez prioriza los estados horizontales
                 for n in range(self.pieza.n_rotations[idx]):
+                    # hace las rotaciones
                     pyautogui.press(['up'])
                 return True
+            # leva la cuenta de las rotaciones
             idx += 1
         return False
 
     def determinar_move(self):
         move = False
+        # para recorrer el heap
         index = 0
+        buff = 0
+        # todas las piezas las tomo como si estuvieran en el punto 4 horizontal
+        horizontal_mv = 4
         while not move:
-            min = self.heap.heap[index]
+            # buff es el índice a donde se movería la pieza
+            buff = self.heap.heap[index]
             move = self.is_move_possible(min, index)
             if (index < 9):
                 index += 1
+            else:
+                # si no encuentra movimiento posible guarda la pieza
+                pyautogui.press(['c'])
+                return
+        # envia la pieza a donde la quiere ubicar
+        while (horizontal_mv != buff[1]):
+            if (horizontal_mv > buff[1]):
+                pyautogui.press(['left'])
+                horizontal_mv -= 1
+            else:
+                pyautogui.press(['right'])
+                horizontal_mv += 1
+        # la baja rápido
         pyautogui.press(['space'])
 
     def determinar_pieza(self):
@@ -77,7 +109,6 @@ class Agente:
     def move(self):
         self.pieza = self.determinar_pieza()
         print(self.pieza)
-        pyautogui.press(['left'])
 
     def compute(self):
         self.move()
