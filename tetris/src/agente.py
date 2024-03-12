@@ -2,7 +2,6 @@ import pyautogui
 from piece import Piece
 import pyscreeze
 from heap import MinHeap
-from collections import Counter
 
 
 class Agente:
@@ -21,7 +20,7 @@ class Agente:
         self.estado_tablero = [0] * 10
         # revisa que la altura sea la correcta para no dejar huecos
 
-    def is_move_possible(self, altitud, index):
+    def is_move_possible(self, altitud):
         idx = 0
         # las coordenadas estan en formato de array[array[tuplas]]
         for x in self.pieza.arr_coordenadas:
@@ -36,9 +35,9 @@ class Agente:
                 # i[1] es lo que ocupa en vertical
                 try:
                     if i[0] in coord:
-                        coord.append(i[0])
+                        coord[1] += 1
                         continue
-                    coord.append(i[0])
+                    coord.append([i[0], 1])
                     # print("i: "+str(i))
                     # print("alt: " + str(altitud[0] + i[1]) +
                     #       " index: " + str(altitud[1] + i[0]))
@@ -61,12 +60,11 @@ class Agente:
                 #    break
             if terminado:
                 # cuenta las coordenadas y frecuencia
-                c = Counter(coord)
-                for k in c.keys():
+                for k, j in coord:
                     # actualiza el tablero y el heap
                     # print ("k: "+ str(k) +" c: "+ str(c[k]))
                     # print("indice 1+k: " + str(altitud[1]+k))
-                    self.estado_tablero[altitud[1]+k] += c[k]
+                    self.estado_tablero[altitud[1]+k] += j
                     self.heap.changePriority(self.heap.getIndex(
                         altitud[1]+k), self.estado_tablero[altitud[1]+k])
                 # por cosas de la rotación hay un index que anota cuantos giros
@@ -88,7 +86,7 @@ class Agente:
             # buff es el índice a donde se movería la pieza
             buff = self.heap.heap[index]
             # print(buff)
-            move = self.is_move_possible(buff, index)
+            move = self.is_move_possible(buff)
             if (index < 9):
                 index += 1
             else:
@@ -103,7 +101,7 @@ class Agente:
         else:
             pyautogui.press('right', presses=(-1*horizontal_mv))
         # la baja rápido
-        pyautogui.press(['space'])
+        pyautogui.press('space')
 
     def determinar_pieza(self):
         # print( "X:{} Y: {} Pixel: {}"
@@ -111,7 +109,11 @@ class Agente:
         color = pyscreeze.pixel(self.X, self.Y)
 
         if color in ((116, 255, 235), (80, 240, 185)):
-            return Piece('I')
+            if pyscreeze.pixel(720, 337) == (48, 48, 48):
+                return Piece('I')
+            pyautogui.press('c')
+            return self.determinar_pieza()
+
         elif color in ((237, 255, 116), (181, 240, 78)):
             return Piece('S')
         elif color in ((255, 119, 130), (229, 72, 80)):
@@ -125,7 +127,7 @@ class Agente:
         elif color in ((255, 255, 118), (236, 206, 76)):
             return Piece('O')
         else:
-            print(color)
+            print("nuevo color: " + str(color))
             return self.determinar_pieza()
 
     def move(self):
