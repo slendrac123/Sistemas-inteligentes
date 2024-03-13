@@ -46,8 +46,7 @@ class Agente:
                     #       str(self.estado_tablero[altitud[1] + i[0]]))
                     if (altitud[1]+i[0] < 0):
                         raise IndexError
-                    if (altitud[0] + i[1] !=
-                            self.estado_tablero[altitud[1]+i[0]]):
+                    if (altitud[0] + i[1] != self.estado_tablero[altitud[1]+i[0]]):
                         terminado = False
                         break
                     # añade las coordenadas
@@ -65,8 +64,7 @@ class Agente:
                     # print ("k: "+ str(k) +" c: "+ str(c[k]))
                     # print("indice 1+k: " + str(altitud[1]+k))
                     self.estado_tablero[altitud[1]+k] += j
-                    self.heap.changePriority(self.heap.getIndex(
-                        altitud[1]+k), self.estado_tablero[altitud[1]+k])
+                    self.heap.changePriority(self.heap.getIndex(altitud[1]+k), self.estado_tablero[altitud[1]+k])
                 # por cosas de la rotación hay un index que anota cuantos giros
                 # a su vez prioriza los estados horizontales
                 # hace las rotaciones
@@ -87,6 +85,7 @@ class Agente:
             buff = self.heap.heap[index]
             # print(buff)
             move = self.is_move_possible(buff)
+            #print(move)
             if (index < 9):
                 index += 1
             else:
@@ -95,6 +94,7 @@ class Agente:
                 return
         # envia la pieza a donde la quiere ubicar
         # todas las piezas las tomo como si estuvieran en el punto 4 horizontal
+        print("Aquí empieza el movement")
         horizontal_mv = 4-buff[1]
         if horizontal_mv > 0:
             pyautogui.press('left', presses=horizontal_mv)
@@ -108,23 +108,23 @@ class Agente:
         # .format(self.X, self.Y, pyscreeze.pixel(self.X , self.Y)))
         color = pyscreeze.pixel(self.X, self.Y)
 
-        if color in ((116, 255, 235), (80, 240, 185)):
-            if pyscreeze.pixel(720, 337) == (48, 48, 48):
+        if color in ((116, 255, 235), (80, 240, 185), (76,253,192)):
+            if pyscreeze.pixel(720, 337) in ((48, 48, 48), (49,49,49), (51,51,51), (37,37,37)):
                 return Piece('I')
             pyautogui.press('c')
             return self.determinar_pieza()
 
-        elif color in ((237, 255, 116), (181, 240, 78)):
+        elif color in ((237, 255, 116), (181, 240, 78), (188,252,75)):
             return Piece('S')
-        elif color in ((255, 119, 130), (229, 72, 80)):
+        elif color in ((255, 119, 130), (229, 72, 80), (247,71,80)):
             return Piece('Z')
-        elif color in ((255, 189, 118), (232, 134, 74)):
+        elif color in ((255, 189, 118), (232, 134, 74), (247,140,72)):
             return Piece('L')
-        elif color in ((153, 127, 255), (92, 71, 190)):
+        elif color in ((153, 127, 255), (92, 71, 190), (103,79,217)):
             return Piece('J')
-        elif color in ((255, 128, 255), (195, 74, 182)):
+        elif color in ((255, 128, 255), (195, 74, 182), (219,80,205)):
             return Piece('T')
-        elif color in ((255, 255, 118), (236, 206, 76)):
+        elif color in ((255, 255, 118), (236, 206, 76), (250,220,74)):
             return Piece('O')
         else:
             print("nuevo color: " + str(color))
