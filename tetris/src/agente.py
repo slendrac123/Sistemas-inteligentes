@@ -128,8 +128,8 @@ class Agente:
                 (x, y, z) = pyscreeze.pixel(720, 337)
                 print("pixel 720, 337" + str(pyscreeze.pixel(720, 337)))
                 (x, y, z) = pyscreeze.pixel(720, 337)
-                if (x in range(11, 51) and y in range(10, 51) and
-                        z in range(10, 51)):
+                if (x in range(11, 52) and y in range(10, 52) and
+                        z in range(10, 52)):
                     self.ultima_baza(self.heap.heap[0])
                 else:
                     pyautogui.press(['c'])
@@ -152,8 +152,8 @@ class Agente:
                 b in range(185, 236)):
             print("pixel 720, 337" + str(pyscreeze.pixel(720, 337)))
             (x, y, z) = pyscreeze.pixel(720, 337)
-            if (x in range(11, 51) and y in range(10, 51) and
-                    z in range(10, 51)):
+            if (x in range(11, 52) and y in range(10, 52) and
+                    z in range(10, 52)):
                 return Piece('I')
             pyautogui.press('c')
             return self.determinar_pieza()
