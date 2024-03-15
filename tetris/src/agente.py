@@ -18,6 +18,7 @@ class Agente:
         # iniciar el heap en 0 junto con el índice horizontal
         self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         self.altura_tablero = [0] * 10
+        self.estado_tablero = [[0]*10] * 20
         # revisa que la altura sea la correcta para no dejar huecos
 
     def is_move_possible(self, altitud):
@@ -127,8 +128,8 @@ class Agente:
                 (x, y, z) = pyscreeze.pixel(720, 337)
                 print("pixel 720, 337" + str(pyscreeze.pixel(720, 337)))
                 (x, y, z) = pyscreeze.pixel(720, 337)
-                if (x in range(11, 51) and y in range(10, 51) and
-                        z in range(10, 51)):
+                if (x in range(11, 52) and y in range(10, 52) and
+                        z in range(10, 52)):
                     self.ultima_baza(self.heap.heap[0])
                 else:
                     pyautogui.press(['c'])
