@@ -18,7 +18,7 @@ class Agente:
         # iniciar el heap en 0 junto con el índice horizontal
         self.heap = MinHeap(10, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         self.altura_tablero = [0] * 10
-        self.estado_tablero = [[0]*10] * 20
+        self.estado_tablero = [([0]*10) for i in range(10)]
         # revisa que la altura sea la correcta para no dejar huecos
 
     def is_move_possible(self, altitud):
