@@ -83,7 +83,9 @@ class Agente:
                 # por cosas de la rotación hay un index que anota cuantos giros
                 # a su vez prioriza los estados horizontales
                 # hace las rotaciones
-                print(self.estado_tablero)
+                for i in range(10):
+                    print(self.estado_tablero[9-i])
+                print("alturas: " + str(self.altura_tablero))
                 pyautogui.press('up', self.pieza.n_rotations[idx])
                 return True
             # lleva la cuenta de las rotaciones
@@ -108,7 +110,9 @@ class Agente:
         # por cosas de la rotación hay un index que anota cuantos giros
         # a su vez prioriza los estados horizontales
         # hace las rotaciones
-        print(self.estado_tablero)
+        for i in range(10):
+            print(self.estado_tablero[9-i])
+        print("alturas: " + str(self.altura_tablero))
         pyautogui.press('up', self.pieza.n_rotations[-1])
         return True
 
@@ -128,7 +132,6 @@ class Agente:
                 # si no encuentra movimiento posible guarda la pieza
                 (x, y, z) = pyscreeze.pixel(720, 337)
                 print("pixel 720, 337" + str(pyscreeze.pixel(731, 298)))
-                (x, y, z) = pyscreeze.pixel(720, 337)
                 if (x in range(11, 52) and y in range(10, 52) and
                         z in range(10, 52)):
                     self.ultima_baza(self.heap.heap[0])
