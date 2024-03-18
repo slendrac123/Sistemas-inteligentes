@@ -99,14 +99,23 @@ class Agente:
             if i[0] in coord.keys():
                 coord[i[0]] += 1
                 continue
-            coord.update({i[0]: 1})
+            coord.update({i[0]: altitud[1]+1})
+        for i in self.pieza.arr_coordenadas[-1]:
+            self.estado_tablero[altitud[1]+i[0]][altitud[0]+i[1]] = 1
         for k in coord.keys():
             # actualiza el tablero y el heap
             # print ("k: "+ str(k) +" c: "+ str(c[k]))
             # print("indice 1+k: " + str(altitud[1]+k))
-            self.estado_tablero[altitud[1] + k] = coord[k]
+            self.altura_tablero[altitud[1] + k] = coord[k]
             self.heap.changePriority(self.heap.getIndex(altitud[1] + k),
-                                     self.estado_tablero[altitud[1] + k])
+                                     self.altura_tablero[altitud[1] + k])
+            for i in self.estado_tablero:
+                if 0 in i:
+                    continue
+                self.estado_tablero.remove(i)
+                self.estado_tablero.append([0] * 10)
+                for j in self.heap.heap:
+                    j[0] -= 1
         # por cosas de la rotación hay un index que anota cuantos giros
         # a su vez prioriza los estados horizontales
         # hace las rotaciones
