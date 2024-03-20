@@ -5,7 +5,6 @@ class MinHeap:
         self.size = 10
         # self.heap = [None] * size
         self.heap = [[0, i] for i in data]
-        print(self.heap)
 
     def parent(self, index):
         return index // 2
