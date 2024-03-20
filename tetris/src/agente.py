@@ -133,12 +133,10 @@ class Agente:
                 continue
             for i in x:
                 self.estado_tablero[altitud[1]+i[0]][altitud[0]+i[1]] = 1
-                self.estado_tablero[altitud[0]+i[1]][altitud[1]+i[0]] = 1
             for k in coord.keys():
                 # actualiza el tablero y el heap
                 # print ("k: "+ str(k) +" c: "+ str(c[k]))
                 # print("indice 1+k: " + str(altitud[1]+k))
-                self.altura_tablero[altitud[1] + k] = coord[k]
                 self.altura_tablero[altitud[1] + k] = coord[k] + 1
                 self.heap.changePriority(self.heap.getIndex(altitud[1] + k),
                                          self.altura_tablero[altitud[1] + k])
