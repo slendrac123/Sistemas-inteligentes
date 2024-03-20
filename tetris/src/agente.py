@@ -119,7 +119,7 @@ class Agente:
                 if (altitud[0] + i[1] < 0):
                     messirve = False
                     break
-                coord.update({i[0]: altitud[1] + i[1]})
+                coord.update({i[0]: altitud[0] + i[1]})
                 try:
                     if (self.estado_tablero[altitud[0]+i[1]][altitud[1]+i[0]]
                             == 1):
