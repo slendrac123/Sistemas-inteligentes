@@ -5,7 +5,6 @@ class MinHeap:
         self.size = 10
         # self.heap = [None] * size
         self.heap = [[0, i] for i in data]
-        print(self.heap)
 
     def parent(self, index):
         return index // 2
@@ -17,8 +16,7 @@ class MinHeap:
         return index * 2 + 1
 
     def siftUp(self, index):
-        while (index > 1 and
-               self.heap[self.parent(index) - 1][0] > self.heap[index - 1][0]):
+        while (index > 1 and self.heap[self.parent(index) - 1][0] > self.heap[index - 1][0]):
             buff = self.heap[index - 1]
             self.heap[index - 1] = self.heap[self.parent(index) - 1]
             self.heap[self.parent(index) - 1] = buff
