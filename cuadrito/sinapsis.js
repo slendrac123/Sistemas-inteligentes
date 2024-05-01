@@ -2,7 +2,7 @@ export class Sinapsis {
     /***
      * input_id := int
      * output_id := int
-     * peso := double
+     * peso := double (entre 0 y 1)
      * is_enabled := bool
     ***/
     constructor(input_id, output_id, peso, is_enabled) {

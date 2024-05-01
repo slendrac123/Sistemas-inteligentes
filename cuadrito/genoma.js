@@ -1,6 +1,13 @@
 import { Sinapsis } from "./sinapsis.js"
 
 export class Genoma {
+    /***
+     * genome_id := int
+     * num_inputs := int
+     * num_outputs := int
+     * neuronas := List<Neurona>
+     * links := List<Sinapsis>
+    ***/
     constructor(genome_id, num_inputs, num_outputs, neuronas = [], links = []) {
         this.genome_id = genome_id
         this.num_inputs = num_inputs

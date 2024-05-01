@@ -1,4 +1,8 @@
 class Individuo {
+    /***
+     * genoma := Genoma
+     * fitness := int (sujeto a cambios)
+    ***/
     constructor(genoma, fitness = 0) {
         this.genoma = genoma
         this.fitness = fitness
