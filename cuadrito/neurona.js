@@ -1,4 +1,4 @@
-class Neurona {
+export class Neurona {
     /***
      * neuron_id := int
      * bias := double

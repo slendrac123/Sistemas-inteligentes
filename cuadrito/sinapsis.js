@@ -1,4 +1,4 @@
-class Sinapsis {
+export class Sinapsis {
     /***
      * input_id := int
      * output_id := int

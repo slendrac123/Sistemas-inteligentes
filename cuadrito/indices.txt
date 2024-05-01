@@ -1,1 +1,1 @@
-ind_genes,0,ind_sinapsis,0,ind_genoma,0
+ind_genes,1,ind_sinapsis,0,ind_genoma,0

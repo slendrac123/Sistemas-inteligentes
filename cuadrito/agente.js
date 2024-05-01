@@ -28,9 +28,12 @@ class Cuadrito extends Agent {
         this.fitness += this.calc_fitness(board)
         // Randomly picks one available move
         var index = Math.floor(moves.length * Math.random())
-        for (var i = 0; i < 50000000; i++) { } // Making it very slow to test time restriction
-        for (var i = 0; i < 50000000; i++) { } // Making it very slow to test time restriction
-        console.log(this.fitness(board))
+        let neurona_a = Neurona(1, 0.5, (x) => x * x)
+        let neurona_b = Neurona(2, 0.5, (x) => 2 * x)
+        let enlace = Sinapsis(1, 2, 1, true)
+        let genoma = Genoma(1, 2, 1, [neurona_a, neurona_b], [enlace])
+
+        console.log(genoma)
         return moves[index]
     }
 
