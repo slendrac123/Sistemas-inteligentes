@@ -1,10 +1,12 @@
+var num_neuronas = 0
 export class Neurona {
     /***
      * neuron_id := int
      * bias := double
      * activation := function
     ***/
-    constructor(neuron_id, bias, activation) {
+    constructor(neuron_id = num_neuronas, bias, activation) {
+        num_neuronas += 1
         this.neuron_id = neuron_id
         this.bias = bias
         this.activation = activation
