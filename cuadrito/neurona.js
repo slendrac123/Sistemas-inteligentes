@@ -6,7 +6,10 @@ export class Neurona {
      * activation := function
     ***/
     constructor(neuron_id = num_neuronas, bias, activation) {
-        num_neuronas += 1
+        if (num_neuronas == neuron_id) {
+            num_neuronas++
+            console.log('num neuronas (id): ' + num_neuronas)
+        }
         this.neuron_id = neuron_id
         this.bias = bias
         this.activation = activation
