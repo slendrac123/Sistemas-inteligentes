@@ -26,19 +26,19 @@ export class Population {
         //añadir las neuronas inputs
         for (let neuron_id = 0; neuron_id < NUM_INPUTS; neuron_id++) {
             let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
-            genoma.add_neurona()
+            genoma.add_neurona(new_neurona)
         }
         //añadir las neuronas outputs
         for (let neuron_id = NUM_INPUTS; neuron_id < NUM_INPUTS + NUM_OUTPUTS; neuron_id++) {
             let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
-            genoma.add_neurona()
+            genoma.add_neurona(new_neurona)
         }
 
         //conectar todo con todo
         for (let input_id = 0; input_id < NUM_INPUTS; input_id++) {
             for (let output_id = NUM_INPUTS; output_id < NUM_INPUTS + NUM_OUTPUTS; output_id++) {
                 let new_link = new Sinapsis(input_id, output_id)
-                genoma.add_link()
+                genoma.add_link(new_link)
             }
         }
         return genoma
