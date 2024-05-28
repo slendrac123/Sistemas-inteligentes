@@ -1,16 +1,26 @@
 import { Genoma } from './genoma.js'
 import { Sinapsis } from './sinapsis.js'
+import { Neurona } from './neurona.js'
+import { ambiente_run } from './ambiente.js'
+import { Individuo } from './individuo.js'
 
 const NUM_INPUTS = 4
 const NUM_OUTPUTS = 3
 
 export class Population {
-    constructor(population_size) {
-        this.individuals = []
+    constructor(population_size, fitness) {
+        this.individuos = []
         for (let i = 0; i < population_size; i++) {
-            this.individuals.push(new_genoma())
+            let new_individuo = new Individuo(this.new_genoma(), fitness)
+            this.individuos.push(new_individuo)
         }
     }
+    init(color, board, time = 20000) {
+        this.color = color
+        this.time = time
+        this.size = board.length
+    }
+
     new_genoma() {
         let genoma = new Genoma(NUM_INPUTS, NUM_OUTPUTS)
         //añadir las neuronas inputs
@@ -27,13 +37,24 @@ export class Population {
         //conectar todo con todo
         for (let input_id = 0; input_id < NUM_INPUTS; input_id++) {
             for (let output_id = NUM_INPUTS; output_id < NUM_INPUTS + NUM_OUTPUTS; output_id++) {
-                let new_link = Sinapsis(input_id, output_id)
+                let new_link = new Sinapsis(input_id, output_id)
                 genoma.add_link()
             }
         }
         return genoma
     }
-    run(fitness, generations) {
+    calc_fitness(fitness, agent1, agent2) {
+        ambiente_run(agent1, agent2, 20)
+        console.log('hi')
+    }
+    run(fitness, generaciones) {
+        for (let i = 0; i < generaciones; i += 2) {
+            this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1])
+            sort_best()
+            this.individuos = reproduce()
+        }
+    }
+    reproduce() {
 
     }
 

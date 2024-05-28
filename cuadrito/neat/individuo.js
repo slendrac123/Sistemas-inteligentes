@@ -1,15 +1,16 @@
-import { readFileSync, writeFileSync } from "fs"
 import { Genoma } from "./genoma.js"
-import assert from "assert"
+import { Agent, Board } from "./ambiente.js"
 
-export class Individuo {
+export class Individuo extends Agent {
     /***
      * genoma := Genoma
      * fitness := int (sujeto a cambios)
     ***/
     constructor(genoma, fitness = 0) {
+        super()
         this.genoma = genoma
         this.fitness = fitness
+        this.board = new Board()
     }
     crossover(dominante, recesivo) {
         let offspring = new Genoma(dominante.genoma?.num_inputs, dominante.genoma?.num_outputs);
@@ -39,5 +40,12 @@ export class Individuo {
 
         }
         return offspring
+    }
+    compute(board, time) {
+        // Always cheks the current board status since opponent move can change several squares in the board
+        var moves = this.board.valid_moves(board)
+        // Randomly picks one available move
+        var index = Math.floor(moves.length * Math.random())
+        return moves[index]
     }
 }
