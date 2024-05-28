@@ -187,8 +187,8 @@ export class Board {
 export function ambiente_run(agente1, agente2, size) {
     let board = new Board()
     board.board = board.init(size)
-    agente1.init('R', board, 20000)
-    agente2.init('Y', board, 20000)
+    agente1.init(-1, board, 20000)
+    agente2.init(-2, board, 20000)
     let turno_agente1 = true
     let jugando = true
     let winner = ' '
@@ -197,7 +197,7 @@ export function ambiente_run(agente1, agente2, size) {
         board.print(board.board)
         if (turno_agente1) {
             let move = agente1.compute(board.board)
-            console.log(`${move}`)
+            console.log(`Movimiento agente 1: ${move}`)
             jugando = board.move(board.board, move[0], move[1], move[2], agente1.color)
             if (!jugando) {
                 console.log("el ganador es Y")
@@ -205,7 +205,7 @@ export function ambiente_run(agente1, agente2, size) {
             }
         } else {
             let move = agente2.compute(board.board)
-            console.log(`${move}`)
+            console.log(`Movimiento agente 2: ${move}`)
             jugando = board.move(board.board, move[0], move[1], move[2], agente2.color)
             if (!jugando) {
                 console.log("el ganador es R")
@@ -213,17 +213,11 @@ export function ambiente_run(agente1, agente2, size) {
             }
         }
         turnos++
-        console.log(`${turnos}`)
+        console.log(`TURNO: ${turnos}`)
         turno_agente1 = turno_agente1 ? false : true
-        console.log(`${turno_agente1}`)
         winner = board.winner(board.board)
         if (winner != ' ') {
-            console.log(`el ganador es ${winner}`)
-            if (winner == 'R') {
-                return 0
-            } else {
-                return 1
-            }
+            return winner == 'R' ? 0 : 1
         }
     }
 }

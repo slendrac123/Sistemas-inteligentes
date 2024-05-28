@@ -1,1 +1,1 @@
-{"genoma":{"genome_id":4,"num_inputs":3,"neuronas":[null,null,null,null,null,null,null],"links":[null,null,null,null,null,null,null,null,null,null,null,null]},"fitness":0,"board":{},"color":"Y","time":20000}
+{"genoma":{"genome_id":0,"num_inputs":4,"num_outputs":3,"neuronas":[null,null,null,null,null,null,null],"links":[null,null,null,null,null,null,null,null,null,null,null,null]},"fitness":0,"board":{},"color":-1,"time":20000}
