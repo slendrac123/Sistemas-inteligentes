@@ -44,14 +44,17 @@ export class Population {
         return genoma
     }
     calc_fitness(fitness, agent1, agent2) {
-        ambiente_run(agent1, agent2, 20)
-        console.log('hi')
+        return ambiente_run(agent1, agent2, 20)
     }
     run(fitness, generaciones) {
         for (let i = 0; i < generaciones; i += 2) {
-            this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1])
-            sort_best()
-            this.individuos = reproduce()
+            let a = this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1])
+            if (a == 0) {
+                return this.individuos[i]
+            } else {
+                return this.individuos[i + 1]
+            }
+
         }
     }
     reproduce() {

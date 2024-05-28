@@ -214,7 +214,8 @@ export function ambiente_run(agente1, agente2, size) {
         }
         turnos++
         console.log(`${turnos}`)
-        turno_agente1 = !turno_agente1
+        turno_agente1 = turno_agente1 ? false : true
+        console.log(`${turno_agente1}`)
         winner = board.winner(board.board)
         if (winner != ' ') {
             console.log(`el ganador es ${winner}`)
