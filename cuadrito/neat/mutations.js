@@ -15,12 +15,49 @@ function mutate_add_link(genoma) {
     }
 }
 function revisar_ciclos(links, input_id, output_id) {
-    /***
-     * TODO: IMPLEMENTACION
-     ***/
-    return false
+    // Crear un "mapa de adyacencia"
+    let adjList = new Map();
+    for (let sinapsis of links) {
+        if (!adjList.has(sinapsis.input_id)) {
+            adjList.set(sinapsis.input_id, []);
+        }
+        adjList.get(sinapsis.input_id).push(sinapsis.output_id);
+    }
 
+    // Añadir el nuevo enlace
+    if (!adjList.has(input_id)) {
+        adjList.set(input_id, []);
+    }
+    adjList.get(input_id).push(output_id);
+
+    // Función DFS (busqueda en profundidad) para detectar ciclos
+    let visited = new Set();
+    let recStack = new Set();
+
+    const dfs = (node) => {
+        if (recStack.has(node)) return true;  // Se detecta un ciclo
+        if (visited.has(node)) return false;  // node en visited y no en recstack => no hay ciclo
+
+        visited.add(node);
+        recStack.add(node);
+
+        let neighbors = adjList.get(node) || [];    //si no esta node en adjLis: neighbors = []
+        for (let neighbor of neighbors) {
+            if (dfs(neighbor)) return true;   // Se detecta un ciclo 
+        }
+
+        recStack.delete(node);
+        return false;
+    };
+
+    // Ejecutar DFS para cada nodo
+    for (let node of adjList.keys()) {
+        if (dfs(node)) return true;  // Se detecta un ciclo
+    }
+
+    return false;  // No se detecta ningún ciclo
 }
+
 function mutate_remove_link(genoma) {
     if (genoma.links.length == 0) {
         return
