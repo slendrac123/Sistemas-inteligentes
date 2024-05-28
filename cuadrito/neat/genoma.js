@@ -8,7 +8,7 @@ export class Genoma {
      * neuronas := List<Neurona>
      * links := List<Sinapsis>
     ***/
-    constructor(id_genoma = num_genomas, num_inputs, num_outputs, neuronas = [], links = []) {
+    constructor(num_inputs, num_outputs, neuronas = [], links = [], id_genoma = num_genomas) {
         if (id_genoma == num_genomas) {
             num_genomas++
             console.log('num genomas (id): ' + num_genomas)

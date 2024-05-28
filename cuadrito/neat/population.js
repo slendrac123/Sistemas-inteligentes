@@ -25,12 +25,12 @@ export class Population {
         let genoma = new Genoma(NUM_INPUTS, NUM_OUTPUTS)
         //añadir las neuronas inputs
         for (let neuron_id = 0; neuron_id < NUM_INPUTS; neuron_id++) {
-            let new_neurona = new Neurona(neuron_id);
+            let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
             genoma.add_neurona()
         }
         //añadir las neuronas outputs
         for (let neuron_id = NUM_INPUTS; neuron_id < NUM_INPUTS + NUM_OUTPUTS; neuron_id++) {
-            let new_neurona = new Neurona(neuron_id);
+            let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
             genoma.add_neurona()
         }
 
@@ -43,12 +43,13 @@ export class Population {
         }
         return genoma
     }
-    calc_fitness(fitness, agent1, agent2) {
-        return ambiente_run(agent1, agent2, 20)
+    calc_fitness(fitness, agent1, agent2, size) {
+        return ambiente_run(agent1, agent2, size)
     }
-    run(fitness, generaciones) {
+    run(fitness, generaciones, size) {
         for (let i = 0; i < generaciones; i += 2) {
-            let a = this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1])
+            let a = this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1], size)
+            console.log(a)
             if (a == 0) {
                 return this.individuos[i]
             } else {
