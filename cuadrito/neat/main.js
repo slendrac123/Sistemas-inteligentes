@@ -1,14 +1,18 @@
 import { Population } from "./population.js"
 import * as fs from 'node:fs'
 
-const NUM_POBLACION = 20
-const NUM_GENERACIONES = 200
+const NUM_POBLACION = 100
+const NUM_GENERACIONES = 1
 var size = 5
-let poblacion = new Population(2)
-let winner = poblacion.run(3, NUM_GENERACIONES, size)
-save(winner, 'ganador.txt')
+let poblacion = new Population(NUM_POBLACION)
+let winners = poblacion.run(NUM_GENERACIONES, size)
+save(winners, 'ganadores.txt')
 
-function save(genoma, nombre) {
-    let str = JSON.stringify(genoma)
-    fs.writeFileSync(nombre, str)
+function save(genomas, nombre) {
+    let data = ""
+    for (let genoma of genomas) {
+        let str = JSON.stringify(genoma)
+        data = data + str + "\n"
+    }
+    fs.writeFileSync(nombre, data)
 }

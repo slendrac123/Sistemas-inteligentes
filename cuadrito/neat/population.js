@@ -6,6 +6,7 @@ import { Individuo } from './individuo.js'
 
 const NUM_INPUTS = 4
 const NUM_OUTPUTS = 3
+const SOBREVIVIENTES = 50
 
 export class Population {
     constructor(population_size, fitness) {
@@ -43,20 +44,18 @@ export class Population {
         }
         return genoma
     }
-    calc_fitness(fitness, agent1, agent2, size) {
-        return ambiente_run(agent1, agent2, size)
+    sort_by_fitness() {
+        this.individuos.sort((a, b) => b.fitness - a.fitness)
+        console.log(this.individuos)
     }
-    run(fitness, generaciones, size) {
-        for (let i = 0; i < generaciones; i += 2) {
-            let a = this.calc_fitness(fitness, this.individuos[i], this.individuos[i + 1], size)
-            console.log(a)
-            if (a == 0) {
-                return this.individuos[i]
-            } else {
-                return this.individuos[i + 1]
+    run(generaciones, size) {
+        for (let i = 0; i < generaciones; i++) {
+            for (let i = 0; i < this.individuos.length; i += 2) {
+                ambiente_run(this.individuos[i], this.individuos[i + 1], size)
+                this.sort_by_fitness()
             }
-
         }
+        return this.individuos
     }
     reproduce() {
 

@@ -195,29 +195,30 @@ export function ambiente_run(agente1, agente2, size) {
     let winner = ' '
     let turnos = 0
     while (jugando) {
-        board.print(board.board)
         if (turno_agente1) {
             let move = agente1.compute(board.board)
-            console.log(`Movimiento agente 1: ${move}`)
             jugando = board.move(board.board, move[0], move[1], move[2], agente1.color)
             if (!jugando) {
                 console.log("el ganador es Y")
+                agente2.fitness = 50
+                agente1.fitness = 0
                 return 1
             }
         } else {
             let move = agente2.compute(board.board)
-            console.log(`Movimiento agente 2: ${move}`)
             jugando = board.move(board.board, move[0], move[1], move[2], agente2.color)
             if (!jugando) {
                 console.log("el ganador es R")
+                agente2.fitness = 0
+                agente1.fitness = 50
                 return 0
             }
         }
         turnos++
-        console.log(`TURNO: ${turnos}`)
         turno_agente1 = turno_agente1 ? false : true
         winner = board.winner(board.board)
         if (winner != ' ') {
+            console.log(`NUMERO DE TURNOS: ${turnos}`)
             agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color)
             agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color)
             return winner == 'R' ? 0 : 1
