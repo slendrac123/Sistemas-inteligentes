@@ -8,7 +8,6 @@ export class Neurona {
     constructor(bias, activation, neuron_id = num_neuronas) {
         if (num_neuronas == neuron_id) {
             num_neuronas++
-            console.log('num neuronas (id): ' + num_neuronas)
         }
         this.neuron_id = neuron_id
         this.bias = bias

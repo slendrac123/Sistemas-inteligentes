@@ -47,10 +47,6 @@ export class Individuo extends Agent {
             if (enlace_rec == false) {
                 offspring.add_link(enlace_dom)
             } else {
-                console.log("dom")
-                console.log(enlace_dom)
-                console.log("rec")
-                console.log(enlace_rec)
                 let new_enlace = enlace_rec.crossover(enlace_dom, enlace_rec)
                 offspring.add_link(new_enlace)
             }

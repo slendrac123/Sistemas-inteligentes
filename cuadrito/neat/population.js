@@ -68,8 +68,6 @@ export class Population {
             let madre = this.individuos[Math.floor(Math.random() * this.individuos.length)]
             let hijo = ind.crossover(padre, madre)
             let new_individuo = new Individuo(hijo)
-            console.log("hijo")
-            console.log(hijo)
             nueva_poblacion.push(new_individuo)
         }
         this.individuos = nueva_poblacion
