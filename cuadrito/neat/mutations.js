@@ -1,8 +1,10 @@
+import { Sinapsis } from "./sinapsis.js"
+import { Neurona } from "./neurona.js"
 const MUTATION_RATE = 0.05
 
 function mutate_add_link(genoma) {
     //solo de las hidden o input 
-    let input_id = genoma.get_hidden_or_input()?.neuron_id
+    let input_id = genoma.get_hidden_or_input().neuron_id
     let output_id = genoma.get_hidden_or_output()?.neuron_id
     let busqueda = genoma.find_link(input_id, output_id)
     if (busqueda == false) {
@@ -77,7 +79,9 @@ function mutate_add_neuron(genoma) {
 
     // TODO: HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
     let new_neurona = new Neurona(1 - Math.random(), (x) => x)
+    console.log(new_neurona)
     genoma.add_neurona(new_neurona)
+    console.log(genoma.neuronas)
 
     let enlace_input_id = enlace_para_dividir.input_id
     let enlace_output_id = enlace_para_dividir.output_id
@@ -90,13 +94,13 @@ function mutate_add_neuron(genoma) {
 }
 function mutate_remove_neuron(genoma) {
     //verificar que hayan hidden 
-    if (genoma.num_hidden == 0) {
+    if (genoma.num_hidden() == 0) {
         return;
     }
     //obtener neurona hidden al azar
     let neurona = genoma.get_hidden()
     //borrar todos los enlaces a la neurona
-    for (let i = genoma.enlaces.length; i >= 0; i++) {
+    for (let i = genoma.enlaces?.length; i >= 0; i++) {
         if (genoma.enlaces[i].input_id == neurona.neuron_id
             || genoma.enlaces[i].output_id == neurona.neuron_id
         ) {
@@ -109,16 +113,24 @@ function mutate_remove_neuron(genoma) {
 }
 export function mutate(individuo) {
     if (Math.random() < MUTATION_RATE) {
+        console.log(individuo.genoma.genome_id)
+        console.log("añadir enlace")
         mutate_add_link(individuo.genoma)
     }
     if (Math.random() < MUTATION_RATE) {
+        console.log(individuo.genoma.genome_id)
+        console.log("remover enlace")
         mutate_remove_link(individuo.genoma)
     }
 
     if (Math.random() < MUTATION_RATE) {
+        console.log(individuo.genoma.genome_id)
+        console.log("añadir neurona")
         mutate_add_neuron(individuo.genoma)
     }
     if (Math.random() < MUTATION_RATE) {
-        mutate_remove_neuron(individuo.genoma)
+        console.log(individuo.genoma.genome_id)
+        console.log("remover neurona")
+        //   mutate_remove_neuron(individuo.genoma)
     }
 }

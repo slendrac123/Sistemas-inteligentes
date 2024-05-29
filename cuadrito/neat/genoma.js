@@ -27,7 +27,7 @@ export class Genoma {
         return false
     }
     add_neurona(neurona) {
-        this.neuronas = this.neuronas.concat(neurona)
+        this.neuronas.push(neurona)
     }
     find_link(input_id, output_id) {
         for (let link of this.links) {
@@ -38,7 +38,7 @@ export class Genoma {
         return false
     }
     add_link(link) {
-        this.links = this.links.concat(link)
+        this.links.push(link)
     }
     get_hidden_or_input() {
         let index = Math.floor(Math.random() * (this.neuronas.length - this.num_outputs))
