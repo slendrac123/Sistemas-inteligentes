@@ -187,6 +187,7 @@ export class Board {
 export function ambiente_run(agente1, agente2, size) {
     let board = new Board()
     board.board = board.init(size)
+    board.length = size
     agente1.init(-1, board, 20000)
     agente2.init(-2, board, 20000)
     let turno_agente1 = true
@@ -217,6 +218,8 @@ export function ambiente_run(agente1, agente2, size) {
         turno_agente1 = turno_agente1 ? false : true
         winner = board.winner(board.board)
         if (winner != ' ') {
+            agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color)
+            agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color)
             return winner == 'R' ? 0 : 1
         }
     }

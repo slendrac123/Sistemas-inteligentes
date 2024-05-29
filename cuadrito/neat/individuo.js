@@ -12,6 +12,17 @@ export class Individuo extends Agent {
         this.fitness = fitness
         this.board = new Board()
     }
+    func_fitness(board, length, color) {
+        let fitness = 0
+        for (let i = 0; i < length; i++) {
+            for (let j = 0; j < length; j++) {
+                if (board[i][j] == color) {
+                    fitness++
+                }
+            }
+        }
+        return fitness
+    }
     crossover(dominante, recesivo) {
         let offspring = new Genoma(dominante.genoma?.num_inputs, dominante.genoma?.num_outputs);
         let length_neuronas = dominante.genoma?.neuronas.length

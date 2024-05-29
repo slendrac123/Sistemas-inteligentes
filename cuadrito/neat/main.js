@@ -1,4 +1,3 @@
-import { Individuo } from "./individuo.js"
 import { Population } from "./population.js"
 import * as fs from 'node:fs'
 
