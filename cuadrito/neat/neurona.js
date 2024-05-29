@@ -5,7 +5,7 @@ export class Neurona {
      * bias := double
      * activation := function
     ***/
-    constructor(neuron_id = num_neuronas, bias, activation) {
+    constructor(bias, activation, neuron_id = num_neuronas) {
         if (num_neuronas == neuron_id) {
             num_neuronas++
             console.log('num neuronas (id): ' + num_neuronas)
@@ -22,7 +22,7 @@ export class Neurona {
     ***/
     crossover(neurona_a, neurona_b) {
         if (neurona_a.neuron_id != neurona_b.neuron_id) {
-            throw ('Error, enlaces no iguales')
+            throw ('Error, neuronas no iguales')
         }
         let neuron_id = neurona_a.neuron_id
         let bias
@@ -37,7 +37,7 @@ export class Neurona {
         } else {
             activation = neurona_b.activation
         }
-        return new Neurona(neuron_id, bias, activation)
+        return new Neurona(bias, activation, neuron_id)
     }
 }
 

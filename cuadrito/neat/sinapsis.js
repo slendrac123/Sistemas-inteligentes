@@ -5,17 +5,18 @@ export class Sinapsis {
      * peso := double 
      * is_enabled := bool
     ***/
-    constructor(input_id, output_id, peso, is_enabled) {
+    constructor(input_id, output_id, peso = Math.random(), is_enabled = true) {
         this.input_id = input_id
         this.output_id = output_id
         this.peso = peso
         this.is_enabled = is_enabled
     }
     crossover(sin_a, sin_b) {
-        if (sin_a.input_id != sin_b.output_id || sin_a.output_id != sin_b.output_id) {
+        if (sin_a.input_id != sin_b.input_id || sin_a.output_id != sin_b.output_id) {
             throw ('Error, enlaces no iguales')
         }
-        let input_id = sin_a.input_id, output_id = sin_a.output_id
+        let input_id = sin_a.input_id
+        let output_id = sin_a.output_id
         let peso
         if (Math.random() < 0.5) {
             peso = sin_a.peso

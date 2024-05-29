@@ -1,7 +1,7 @@
 import { Population } from "./population.js"
 import * as fs from 'node:fs'
 
-const NUM_POBLACION = 100
+export const NUM_POBLACION = 100
 const NUM_GENERACIONES = 1
 var size = 5
 let poblacion = new Population(NUM_POBLACION)

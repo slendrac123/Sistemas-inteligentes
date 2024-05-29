@@ -3,6 +3,7 @@ import { Sinapsis } from './sinapsis.js'
 import { Neurona } from './neurona.js'
 import { ambiente_run } from './ambiente.js'
 import { Individuo } from './individuo.js'
+import { NUM_POBLACION } from './main.js'
 
 const NUM_INPUTS = 4
 const NUM_OUTPUTS = 3
@@ -26,12 +27,12 @@ export class Population {
         let genoma = new Genoma(NUM_INPUTS, NUM_OUTPUTS)
         //añadir las neuronas inputs
         for (let neuron_id = 0; neuron_id < NUM_INPUTS; neuron_id++) {
-            let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
+            let new_neurona = new Neurona(1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()), neuron_id);
             genoma.add_neurona(new_neurona)
         }
         //añadir las neuronas outputs
         for (let neuron_id = NUM_INPUTS; neuron_id < NUM_INPUTS + NUM_OUTPUTS; neuron_id++) {
-            let new_neurona = new Neurona(neuron_id, 1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()));
+            let new_neurona = new Neurona(1 - Math.floor(Math.random()), 1 - Math.floor(Math.random()), neuron_id);
             genoma.add_neurona(new_neurona)
         }
 
@@ -46,19 +47,32 @@ export class Population {
     }
     sort_by_fitness() {
         this.individuos.sort((a, b) => b.fitness - a.fitness)
-        console.log(this.individuos)
     }
     run(generaciones, size) {
         for (let i = 0; i < generaciones; i++) {
             for (let i = 0; i < this.individuos.length; i += 2) {
                 ambiente_run(this.individuos[i], this.individuos[i + 1], size)
-                this.sort_by_fitness()
             }
+            this.sort_by_fitness()
+            this.reproduce()
         }
         return this.individuos
     }
     reproduce() {
-
+        let ind = new Individuo()
+        this.individuos.splice(SOBREVIVIENTES)
+        let spawn_size = NUM_POBLACION
+        let nueva_poblacion = []
+        while (spawn_size-- > 0) {
+            let padre = this.individuos[Math.floor(Math.random() * this.individuos.length)]
+            let madre = this.individuos[Math.floor(Math.random() * this.individuos.length)]
+            let hijo = ind.crossover(padre, madre)
+            let new_individuo = new Individuo(hijo)
+            console.log("hijo")
+            console.log(hijo)
+            nueva_poblacion.push(new_individuo)
+        }
+        this.individuos = nueva_poblacion
     }
 
 }

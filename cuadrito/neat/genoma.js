@@ -11,7 +11,6 @@ export class Genoma {
     constructor(num_inputs, num_outputs, neuronas = [], links = [], id_genoma = num_genomas) {
         if (id_genoma == num_genomas) {
             num_genomas++
-            console.log('num genomas (id): ' + num_genomas)
         }
         this.genome_id = id_genoma
         this.num_inputs = num_inputs

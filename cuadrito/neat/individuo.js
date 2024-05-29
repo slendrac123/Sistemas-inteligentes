@@ -33,11 +33,12 @@ export class Individuo extends Agent {
             if (neurona_rec == false) {
                 offspring.add_neurona(neurona_dom)
             } else {
-                offspring.add_neurona(neurona_dom.crossover(neurona_dom, neurona_rec))
+                let new_neurona = neurona_rec.crossover(neurona_dom, neurona_rec)
+                offspring.add_neurona(new_neurona)
             }
         }
 
-        let length_links = dominante.genoma?.neuronas.length
+        let length_links = dominante.genoma?.links.length
         for (let i = 0; i < length_links; i++) {
             let enlace_dom = dominante.genoma?.links[i]
             let link_input_id = enlace_dom.input_id
@@ -46,7 +47,12 @@ export class Individuo extends Agent {
             if (enlace_rec == false) {
                 offspring.add_link(enlace_dom)
             } else {
-                offspring.add_link(recesivo.crossover(enlace_dom, enlace_rec))
+                console.log("dom")
+                console.log(enlace_dom)
+                console.log("rec")
+                console.log(enlace_rec)
+                let new_enlace = enlace_rec.crossover(enlace_dom, enlace_rec)
+                offspring.add_link(new_enlace)
             }
 
         }

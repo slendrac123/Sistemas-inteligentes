@@ -1,3 +1,5 @@
+const MUTATION_RATE = 0.05
+
 function mutate_add_link(genoma) {
     //solo de las hidden o input 
     let input_id = genoma.get_hidden_or_input()?.neuron_id
@@ -5,7 +7,7 @@ function mutate_add_link(genoma) {
     let busqueda = genoma.find_link(input_id, output_id)
     if (busqueda == false) {
         /* Falta revisar que no se creen ciclos */
-        if (genoma.revisar_ciclos(genoma.links, input_id, output_id)) {
+        if (revisar_ciclos(genoma.links, input_id, output_id)) {
             return
         }
         let new_link = new Sinapsis(input_id, output_id, 1 - Math.random(), true)
@@ -24,13 +26,13 @@ function revisar_ciclos(links, input_id, output_id) {
         adjList.get(sinapsis.input_id).push(sinapsis.output_id);
     }
 
-    // Añadir el nuevo enlace
+    // Aï¿½adir el nuevo enlace
     if (!adjList.has(input_id)) {
         adjList.set(input_id, []);
     }
     adjList.get(input_id).push(output_id);
 
-    // Función DFS (busqueda en profundidad) para detectar ciclos
+    // Funciï¿½n DFS (busqueda en profundidad) para detectar ciclos
     let visited = new Set();
     let recStack = new Set();
 
@@ -55,7 +57,7 @@ function revisar_ciclos(links, input_id, output_id) {
         if (dfs(node)) return true;  // Se detecta un ciclo
     }
 
-    return false;  // No se detecta ningún ciclo
+    return false;  // No se detecta ningï¿½n ciclo
 }
 
 function mutate_remove_link(genoma) {
@@ -73,7 +75,7 @@ function mutate_add_neuron(genoma) {
     //
     enlace_para_dividir.is_enabled = false
 
-    // HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
+    // TODO: HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
     let new_neurona = new Neurona(1 - Math.random(), (x) => x)
     genoma.add_neurona(new_neurona)
 
@@ -104,4 +106,19 @@ function mutate_remove_neuron(genoma) {
     // encontrar el indice y borrarlo
     let index = genoma.neuronas.indexOf(neurona)
     genoma.neuronas.splice(index, 1)
+}
+export function mutate(individuo) {
+    if (Math.random() < MUTATION_RATE) {
+        mutate_add_link(individuo.genoma)
+    }
+    if (Math.random() < MUTATION_RATE) {
+        mutate_remove_link(individuo.genoma)
+    }
+
+    if (Math.random() < MUTATION_RATE) {
+        mutate_add_neuron(individuo.genoma)
+    }
+    if (Math.random() < MUTATION_RATE) {
+        mutate_remove_neuron(individuo.genoma)
+    }
 }
