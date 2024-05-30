@@ -11,8 +11,9 @@ const NUM_GENERACIONES = 1
 const NOMBRE_ARCHIVO = "ganadores.txt"
 var size = 5
 let poblacion = read(NOMBRE_ARCHIVO)
+//let poblacion = new Population(200)
 let winners = poblacion.run(NUM_GENERACIONES, size)
-save(winners, NOMBRE_ARCHIVO)
+//save(winners, NOMBRE_ARCHIVO)
 
 function save(genomas, nombre) {
     let data = ""
@@ -42,7 +43,7 @@ function read(nombre) {
 
 function JSON_to_neuronas(object) {
     let neuronas = []
-    for (let neurona in object) {
+    for (let neurona of object) {
         let new_neurona = new Neurona(neurona.bias, neurona.activation, neurona.neuron_id)
         neuronas.push(new_neurona)
     }
@@ -50,7 +51,7 @@ function JSON_to_neuronas(object) {
 }
 function JSON_to_enlaces(object) {
     let enlaces = []
-    for (let enlace in object) {
+    for (let enlace of object) {
         let new_enlace = new Sinapsis(enlace.input_id, enlace.output_id, enlace.peso, enlace.is_enabled)
         enlaces.push(new_enlace)
     }

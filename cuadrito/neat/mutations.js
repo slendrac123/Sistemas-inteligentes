@@ -79,9 +79,7 @@ function mutate_add_neuron(genoma) {
 
     // TODO: HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
     let new_neurona = new Neurona(1 - Math.random(), (x) => x)
-    console.log(new_neurona)
     genoma.add_neurona(new_neurona)
-    console.log(genoma.neuronas)
 
     let enlace_input_id = enlace_para_dividir.input_id
     let enlace_output_id = enlace_para_dividir.output_id

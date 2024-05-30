@@ -11,10 +11,10 @@ const NUM_OUTPUTS = 3
 const SOBREVIVIENTES = 50
 
 export class Population {
-    constructor(population_size, fitness) {
+    constructor(population_size) {
         this.individuos = []
         for (let i = 0; i < population_size; i++) {
-            let new_individuo = new Individuo(this.new_genoma(), fitness)
+            let new_individuo = new Individuo(this.new_genoma())
             this.individuos.push(new_individuo)
         }
     }
