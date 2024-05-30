@@ -1,4 +1,3 @@
-import { Board } from "./ambiente.js"
 import { Genoma } from "./genoma.js"
 import { Individuo } from "./individuo.js"
 import { Neurona } from "./neurona.js"
@@ -11,9 +10,9 @@ const NUM_GENERACIONES = 1
 const NOMBRE_ARCHIVO = "ganadores.txt"
 var size = 5
 let poblacion = read(NOMBRE_ARCHIVO)
-//let poblacion = new Population(200)
+console.log(poblacion.individuos)
 let winners = poblacion.run(NUM_GENERACIONES, size)
-//save(winners, NOMBRE_ARCHIVO)
+save(winners, NOMBRE_ARCHIVO)
 
 function save(genomas, nombre) {
     let data = ""
@@ -58,7 +57,7 @@ function JSON_to_enlaces(object) {
     return enlaces
 }
 function JSON_to_genoma(object) {
-    return new Genoma(object.num_inputs, object.num_outputs, JSON_to_neuronas(object.neuronas), JSON_to_enlaces(object.links), object.id_genoma)
+    return new Genoma(object.num_inputs, object.num_outputs, JSON_to_neuronas(object.neuronas), JSON_to_enlaces(object.links), object.genome_id)
 
 }
 function JSON_to_ind(object) {
