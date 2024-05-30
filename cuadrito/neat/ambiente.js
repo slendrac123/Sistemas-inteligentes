@@ -141,7 +141,7 @@ export class Board {
                 board = this.fill(board, i - 1, j, ocolor)
             }
             if (i < board.length - 1 && s == 2) {
-                board[i + 1][j] |= 1
+                    if(board[i+1][j] >= 0) board[i+1][j] |= 1
                 board = this.fill(board, i + 1, j, ocolor)
             }
             if (j > 0 && s == 3) {
