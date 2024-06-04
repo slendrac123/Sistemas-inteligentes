@@ -12,11 +12,11 @@ export const SIZE = 5
 export const NUM_INPUTS = SIZE * SIZE + 2
 export const NUM_OUTPUTS = 3
 export const SOBREVIVIENTES = 50
-export const NUM_POBLACION = 100
-const NUM_GENERACIONES = 1
+export const NUM_POBLACION = 1000
+const NUM_GENERACIONES = 100
 const NOMBRE_ARCHIVO = "ganadores.txt"
-//let poblacion = new Population(NUM_POBLACION)
-let poblacion = read(NOMBRE_ARCHIVO)
+let poblacion = new Population(NUM_POBLACION)
+//let poblacion = read(NOMBRE_ARCHIVO)
 let winners = poblacion.run(NUM_GENERACIONES, SIZE)
 save(winners, NOMBRE_ARCHIVO)
 

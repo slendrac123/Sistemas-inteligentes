@@ -57,6 +57,7 @@ export class Individuo extends Agent {
     }
     compute(board, time = 1) {
         // Always cheks the current board status since opponent move can change several squares in the board
+        let neuronas = this.genoma.order_by_layers(this.genoma)
         let values = new Map()
         for (let i = 0; i < NUM_INPUTS - 2; i++) {
             values.set(i, board[Math.floor(i / SIZE)][i % SIZE])
@@ -66,35 +67,49 @@ export class Individuo extends Agent {
         for (let i = NUM_INPUTS; i < NUM_INPUTS + NUM_OUTPUTS; i++) {
             values.set(i, 0)
         }
-        for (let i = NUM_INPUTS + NUM_OUTPUTS; i < this.genoma.neuronas.length; i++) {
+        for (let i = NUM_INPUTS + NUM_OUTPUTS; i < neuronas.length; i++) {
             let value = 0
             for (let link of this.genoma.links) {
-                if (link.output_id != this.genoma.neuronas[i].neuron_id) {
+                if (link.is_enabled == false) {
+                    continue
+                }
+                if (link.output_id != neuronas[i].neuron_id) {
                     continue
                 }
                 value += values.get(link.input_id) * link.peso
             }
-            value += this.genoma.neuronas[i].bias
-            value = this.genoma.neuronas[i].activation(value)
-            values.set(this.genoma.neuronas[i].neuron_id, value)
+            value += neuronas[i].bias
+            value = neuronas[i].get_activation(value, neuronas[i].activation)
+            values.set(neuronas[i].neuron_id, value)
         }
         let outputs = []
         for (let i = NUM_INPUTS; i < NUM_INPUTS + NUM_OUTPUTS; i++) {
             let value = 0
             for (let link of this.genoma.links) {
-                console.log(this.genoma.neuronas)
-                console.log(i)
-                if (link.output_id != this.genoma.neuronas[i].neuron_id) {
+                if (link.is_enabled == false) {
+                    continue
+                }
+                if (link.output_id != neuronas[i].neuron_id) {
                     continue
                 }
                 value += values.get(link.input_id) * link.peso
-                value += this.genoma.neuronas[i].bias
-                value = this.genoma.neuronas[i].activation(value)
             }
-            values.set(this.genoma.neuronas[i].neuron_id, value)
+            value += neuronas[i].bias
+            value = neuronas[i].get_activation(value, neuronas[i].activation)
+            values.set(neuronas[i].neuron_id, value)
             outputs.push(Math.floor(value))
         }
-        console.log(outputs)
+        for (let i = 0; i < 3; i++) {
+            if (isNaN(outputs[i])) {
+                console.log(this.genoma)
+                console.log(neuronas)
+                console.log(values)
+                throw ("err")
+            }
+            if (outputs[i] < 0 || outputs[i] > SIZE) {
+                this.fitness -= 1000
+            }
+        }
         var moves = this.board.valid_moves(board)
         if (moves.indexOf(outputs) == -1) {
             this.fitness -= 1000

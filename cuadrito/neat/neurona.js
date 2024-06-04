@@ -11,7 +11,7 @@ export class Neurona {
         }
         this.neuron_id = neuron_id
         this.bias = bias
-        this.activation = funcionActivacionAleatoria()
+        this.activation = Math.floor(Math.random() * funcionActivacion.length)
     }
     /***
      * mezcla el bias y la función de activación 
@@ -38,6 +38,10 @@ export class Neurona {
         }
         return new Neurona(bias, activation, neuron_id)
     }
+    get_activation(value, index) {
+        let func = funcionActivacion[index]
+        return func(value)
+    }
 }
 
 // Funciones de activación
@@ -55,7 +59,7 @@ const relu = (x) => Math.max(0, x);
 const leakyRelu = (x) => (x > 0 ? x : 0.01 * x);
 
 // Función ELU (Exponential Linear Unit)
-const elu = (x, alpha = 1.0) => (x > 0 ? x : alpha * (Math.exp(x) - 1));
+//const elu = (x, alpha = 1.0) => (x > 0 ? x : alpha * (Math.exp(x) - 1));
 
 // Función softplus
 const softplus = (x) => Math.log(1 + Math.exp(x));
@@ -64,13 +68,9 @@ const softplus = (x) => Math.log(1 + Math.exp(x));
 const linear = (x) => x;
 
 // Lista de funciones de activación
-const funcionActivacion = [sigmoid, tanh, relu, leakyRelu, elu, softplus, linear];
+const funcionActivacion = [sigmoid, tanh, relu, leakyRelu, softplus, linear];
 
 // Seleccionar una función de activación aleatoriamente
-function funcionActivacionAleatoria() {
-    let index = Math.floor(Math.random() * funcionActivacion.length);
-    return funcionActivacion[index];
-};
 
 
 /*

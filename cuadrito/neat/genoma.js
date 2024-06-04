@@ -29,6 +29,7 @@ export class Genoma {
     }
     add_neurona(neurona) {
         this.neuronas.push(neurona)
+        //console.log("añadida neurona %d al genoma %d", neurona.neuron_id, this.genome_id)
     }
     find_link(input_id, output_id) {
         for (let link of this.links) {
@@ -40,6 +41,7 @@ export class Genoma {
     }
     add_link(link) {
         this.links.push(link)
+        //console.log("añadido enlade de neurona %d a neurona en el genoma %d", link.input_id, link.output_id, this.genome_id)
     }
     get_hidden_or_input() {
         let index = Math.floor(Math.random() * (this.neuronas.length - this.num_outputs))
@@ -58,11 +60,11 @@ export class Genoma {
         return this.neuronas[index + this.num_inputs]
     }
     num_hidden() {
-        return this.neuronas.length - (this.num_inputs - this.num_outputs)
+        return this.neuronas.length - (this.num_inputs + this.num_outputs)
 
     }
     get_hidden() {
-        if (this.num_hidden == 0) {
+        if (this.neuronas.length == this.num_inputs + this.num_outputs) {
             return;
         }
         let index = Math.floor(Math.random() * (this.neuronas.length - this.num_inputs - this.num_outputs))
@@ -73,19 +75,24 @@ export class Genoma {
         //deepcopy
         let neuronas = [...genoma.neuronas]
         let layers = 2
+        //console.log(neuronas)
         let layer = neuronas.splice(0, genoma.num_inputs + genoma.num_outputs)
         while (neuronas.length != 0) {
             layers++
             let new_layer = []
             for (let i = 0; i < neuronas.length; i++) {
                 let neurona = neuronas[i]
+                //console.log(neurona.neuron_id)
                 let flag = true
                 for (let link of genoma.links) {
+                    if (link.is_enabled == false) {
+                        continue
+                    }
                     if (link.output_id != neurona.neuron_id) {
                         continue
                     }
+                    //console.log(link)
                     if (layer.indexOf(this.find_neurona(link.input_id)) == -1) {
-                        console.log(link.input_id)
                         flag = false
                         break
                     }
@@ -97,11 +104,12 @@ export class Genoma {
                 }
             }
             if (new_layer.length == 0) {
-                throw ("err")
+                console.log(neuronas)
+                throw ("aa")
             }
             layer = layer.concat(new_layer)
         }
-        console.log(`genoma id: ${genoma.genome_id}: layers ${layers}`)
+        //console.log(`genoma id: ${genoma.genome_id}: layers ${layers}`)
         return layer
     }
 }

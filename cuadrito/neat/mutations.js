@@ -6,10 +6,9 @@ const MUTATION_RATE = 0.05
 function mutate_add_link(genoma) {
     //solo de las hidden o input 
     let input_id = genoma.get_hidden_or_input().neuron_id
-    let output_id = genoma.get_hidden_or_output()?.neuron_id
+    let output_id = genoma.get_hidden_or_output().neuron_id
     let busqueda = genoma.find_link(input_id, output_id)
     if (busqueda == false) {
-        /* Falta revisar que no se creen ciclos */
         if (revisar_ciclos(genoma.links, input_id, output_id)) {
             return
         }
@@ -19,14 +18,7 @@ function mutate_add_link(genoma) {
         busqueda.is_enabled = true
     }
 }
-function revisar_ciclos(links, input_id, output_id, num_inputs, num_outputs) {
-    //revisar que no salgan del output ni entren al input
-    if (output_id < num_inputs) {
-        return true
-    }
-    if (input_id >= num_inputs && input_id < num_outputs + num_inputs) {
-        return true
-    }
+function revisar_ciclos(links, input_id, output_id) {
 
     //que no salga y entre a si misma
     if (input_id == output_id) {
@@ -90,9 +82,7 @@ function mutate_add_neuron(genoma) {
     //
     enlace_para_dividir.is_enabled = false
 
-    // TODO: HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
-    let new_neurona = new Neurona(1 - Math.random(), 1 - Math.random())
-    genoma.add_neurona(new_neurona)
+    let new_neurona = new Neurona(1 - Math.random())
 
     let enlace_input_id = enlace_para_dividir.input_id
     let enlace_output_id = enlace_para_dividir.output_id
@@ -101,6 +91,7 @@ function mutate_add_neuron(genoma) {
     let new_link2 = new Sinapsis(new_neurona.neuron_id, enlace_output_id, peso, true)
     genoma.add_link(new_link1)
     genoma.add_link(new_link2)
+    genoma.add_neurona(new_neurona)
 
 }
 function mutate_remove_neuron(genoma) {
@@ -111,11 +102,11 @@ function mutate_remove_neuron(genoma) {
     //obtener neurona hidden al azar
     let neurona = genoma.get_hidden()
     //borrar todos los enlaces a la neurona
-    for (let i = genoma.enlaces?.length; i >= 0; i++) {
-        if (genoma.enlaces[i].input_id == neurona.neuron_id
-            || genoma.enlaces[i].output_id == neurona.neuron_id
+    for (let i = genoma.links.length - 1; i >= 0; i--) {
+        if (genoma.links[i].input_id == neurona.neuron_id
+            || genoma.links[i].output_id == neurona.neuron_id
         ) {
-            genoma.enlaces.splice(i, 1)
+            genoma.links.splice(i, 1)
         }
     }
     // encontrar el indice y borrarlo
@@ -135,14 +126,14 @@ export function mutate(individuo) {
     if (Math.random() < MUTATION_RATE) {
         mutate_add_link(individuo.genoma)
     }
-    if (Math.random() < MUTATION_RATE) {
+    if (Math.random() < MUTATION_RATE / 10) {
         mutate_remove_link(individuo.genoma)
     }
 
     if (Math.random() < MUTATION_RATE) {
         mutate_add_neuron(individuo.genoma)
     }
-    if (Math.random() < MUTATION_RATE) {
+    if (Math.random() < MUTATION_RATE / 10) {
         mutate_remove_neuron(individuo.genoma)
     }
     let config = new Configuracion

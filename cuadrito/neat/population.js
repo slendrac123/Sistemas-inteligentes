@@ -46,13 +46,11 @@ export class Population {
         this.individuos.sort((a, b) => b.fitness - a.fitness)
     }
     run(generaciones, size) {
-        let gen = 0
         for (let i = 0; i < generaciones; i++) {
-            console.log(++gen)
             for (let i = 0; i < this.individuos.length; i += 2) {
-                this.individuos[i].genoma.neuronas = this.individuos[i].genoma.order_by_layers(this.individuos[i].genoma)
-                this.individuos[i + 1].genoma.neuronas = this.individuos[i + 1].genoma.order_by_layers(this.individuos[i + 1].genoma)
                 ambiente_run(this.individuos[i], this.individuos[i + 1], size)
+                console.log("fitness %d", this.individuos[i].fitness)
+                console.log("fitness %d", this.individuos[i + 1].fitness)
             }
             this.sort_by_fitness()
             this.reproduce()
@@ -62,7 +60,7 @@ export class Population {
     reproduce() {
         let ind = new Individuo()
         this.individuos.splice(SOBREVIVIENTES)
-        let spawn_size = NUM_POBLACION - 4
+        let spawn_size = NUM_POBLACION
         let nueva_poblacion = []
         while (spawn_size-- > 0) {
             let padre = this.individuos[Math.floor(Math.random() * this.individuos.length)]
@@ -72,8 +70,6 @@ export class Population {
             mutate(new_individuo)
             nueva_poblacion.push(new_individuo)
         }
-        let new_popu = new Population(5)
-        nueva_poblacion = nueva_poblacion.concat(new_popu.individuos)
         this.individuos = nueva_poblacion
     }
 }
