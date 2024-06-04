@@ -40,6 +40,39 @@ export class Neurona {
     }
 }
 
+// Funciones de activación
+
+// Función sigmoide
+const sigmoid = (x) => 1 / (1 + Math.exp(-x));
+
+// Función tanh (hiperbolica tangente)
+const tanh = (x) => Math.tanh(x);
+
+// Función ReLU (Rectified Linear Unit)
+const relu = (x) => Math.max(0, x);
+
+// Función leaky ReLU (ReLU con fuga)
+const leakyRelu = (x) => (x > 0 ? x : 0.01 * x);
+
+// Función ELU (Exponential Linear Unit)
+const elu = (x, alpha = 1.0) => (x > 0 ? x : alpha * (Math.exp(x) - 1));
+
+// Función softplus
+const softplus = (x) => Math.log(1 + Math.exp(x));
+
+// Función lineal
+const linear = (x) => x;
+
+// Lista de funciones de activación
+const funcionActivacion = [sigmoid, tanh, relu, leakyRelu, elu, softplus, linear];
+
+// Seleccionar una función de activación aleatoriamente
+const funcionActivacionAleatoria = () => {
+    let index = Math.floor(Math.random() * funcionActivacion.length);
+    return funcionActivacion[index];
+};
+
+
 /*
 let gen = new Gen(1, 0.3, (x) => x)
 console.log(gen)
