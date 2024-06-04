@@ -3,12 +3,8 @@ import { Sinapsis } from './sinapsis.js'
 import { Neurona } from './neurona.js'
 import { ambiente_run } from './ambiente.js'
 import { Individuo } from './individuo.js'
-import { NUM_POBLACION } from './main.js'
+import { NUM_POBLACION, NUM_INPUTS, NUM_OUTPUTS, SOBREVIVIENTES } from './main.js'
 import { mutate } from './mutations.js'
-
-const NUM_INPUTS = 4
-const NUM_OUTPUTS = 3
-const SOBREVIVIENTES = 50
 
 export class Population {
     constructor(population_size) {

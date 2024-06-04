@@ -18,7 +18,19 @@ function mutate_add_link(genoma) {
         busqueda.is_enabled = true
     }
 }
-function revisar_ciclos(links, input_id, output_id) {
+function revisar_ciclos(links, input_id, output_id, num_inputs, num_outputs) {
+    //revisar que no salgan del output ni entren al input
+    if (output_id < num_inputs) {
+        return true
+    }
+    if (input_id >= num_inputs && input_id < num_outputs + num_inputs) {
+        return true
+    }
+
+    //que no salga y entre a si misma
+    if (input_id == output_id) {
+        return true
+    }
     // Crear un "mapa de adyacencia"
     let adjList = new Map();
     for (let sinapsis of links) {
@@ -78,7 +90,7 @@ function mutate_add_neuron(genoma) {
     enlace_para_dividir.is_enabled = false
 
     // TODO: HABRIA QUE PENSAR QUE FUNCIONES COLOCAR PARA LA ACTIVACION
-    let new_neurona = new Neurona(1 - Math.random(), (x) => x)
+    let new_neurona = new Neurona(1 - Math.random(), 1 - Math.random())
     genoma.add_neurona(new_neurona)
 
     let enlace_input_id = enlace_para_dividir.input_id

@@ -33,7 +33,6 @@ class Cuadrito extends Agent {
         let enlace = new Sinapsis(1, 2, 1, true)
         let genoma = new Genoma(1, 2, 1, [neurona_a, neurona_b], [enlace])
 
-        console.log(genoma)
         return moves[index]
     }
 

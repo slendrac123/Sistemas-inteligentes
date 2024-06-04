@@ -1,3 +1,4 @@
+
 var num_genomas = 0
 
 export class Genoma {
@@ -66,6 +67,41 @@ export class Genoma {
         }
         let index = Math.floor(Math.random() * (this.neuronas.length - this.num_inputs - this.num_outputs))
         return this.neuronas[index + this.num_inputs + this.num_outputs]
+
+    }
+    order_by_layers(genoma) {
+        //deepcopy
+        let neuronas = [...genoma.neuronas]
+        let layers = 2
+        let layer = neuronas.splice(0, genoma.num_inputs + genoma.num_outputs)
+        console.log(neuronas)
+        while (neuronas.length != 0) {
+            layers++
+            let new_layer = []
+            for (let neurona of neuronas) {
+                let flag = true
+                console.log(neurona.neuron_id)
+                for (let link of genoma.links) {
+                    if (link.output_id != neurona.neuron_id) {
+                        continue
+                    }
+                    if (layer.indexOf(this.find_neurona(link.input_id)) == -1) {
+                        flag = false
+                        break
+                    }
+                }
+                if (flag) {
+                    neuronas.splice(neuronas.indexOf(neurona), 1)
+                    new_layer.push(neurona)
+                }
+            }
+            if (new_layer.length == 0) {
+                throw ("err")
+            }
+            layer.concat(new_layer)
+        }
+        console.log(`genoma id: ${genoma.genome_id}: layers ${layers}`)
+        return layer
 
     }
 }
