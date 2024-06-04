@@ -7,9 +7,9 @@ import { Sinapsis } from "./sinapsis.js"
 
 const max_size = 5
 //const size = Math.floor(Math.random() * max_size) + 1
-const size = 5
+export const SIZE = 5
 //cada una de las casillas, el tiempo y el tamaño 
-export const NUM_INPUTS = size * size + 2
+export const NUM_INPUTS = SIZE * SIZE + 2
 export const NUM_OUTPUTS = 3
 export const SOBREVIVIENTES = 50
 export const NUM_POBLACION = 100
@@ -17,7 +17,7 @@ const NUM_GENERACIONES = 1
 const NOMBRE_ARCHIVO = "ganadores.txt"
 //let poblacion = new Population(NUM_POBLACION)
 let poblacion = read(NOMBRE_ARCHIVO)
-let winners = poblacion.run(NUM_GENERACIONES, size)
+let winners = poblacion.run(NUM_GENERACIONES, SIZE)
 save(winners, NOMBRE_ARCHIVO)
 
 function save(genomas, nombre) {
@@ -63,9 +63,7 @@ function JSON_to_enlaces(object) {
     return enlaces
 }
 function JSON_to_genoma(object) {
-    let genoma = new Genoma(object.num_inputs, object.num_outputs, JSON_to_neuronas(object.neuronas), JSON_to_enlaces(object.links), object.genome_id)
-    genoma.neuronas = genoma.order_by_layers(genoma)
-    return genoma
+    return new Genoma(object.num_inputs, object.num_outputs, JSON_to_neuronas(object.neuronas), JSON_to_enlaces(object.links), object.genome_id)
 
 }
 function JSON_to_ind(object) {

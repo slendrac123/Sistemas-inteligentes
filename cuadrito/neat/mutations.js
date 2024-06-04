@@ -1,5 +1,6 @@
 import { Sinapsis } from "./sinapsis.js"
 import { Neurona } from "./neurona.js"
+import { Configuracion } from "./configuracion.js"
 const MUTATION_RATE = 0.05
 
 function mutate_add_link(genoma) {
@@ -121,26 +122,34 @@ function mutate_remove_neuron(genoma) {
     let index = genoma.neuronas.indexOf(neurona)
     genoma.neuronas.splice(index, 1)
 }
+function mutate_peso(genoma, config) {
+    let enlace = genoma.links[Math.floor(Math.random() * genoma.links.length)]
+    enlace.peso = config.mutate_delta(enlace.peso)
+}
+function mutate_bias(genoma, config) {
+    let neurona = genoma.neuronas[Math.floor(Math.random() * genoma.neuronas.length)]
+    neurona.bias = config.mutate_delta(neurona.bias)
+
+}
 export function mutate(individuo) {
     if (Math.random() < MUTATION_RATE) {
-        console.log(individuo.genoma.genome_id)
-        console.log("añadir enlace")
         mutate_add_link(individuo.genoma)
     }
     if (Math.random() < MUTATION_RATE) {
-        console.log(individuo.genoma.genome_id)
-        console.log("remover enlace")
         mutate_remove_link(individuo.genoma)
     }
 
     if (Math.random() < MUTATION_RATE) {
-        console.log(individuo.genoma.genome_id)
-        console.log("añadir neurona")
         mutate_add_neuron(individuo.genoma)
     }
     if (Math.random() < MUTATION_RATE) {
-        console.log(individuo.genoma.genome_id)
-        console.log("remover neurona")
-        //   mutate_remove_neuron(individuo.genoma)
+        mutate_remove_neuron(individuo.genoma)
+    }
+    let config = new Configuracion
+    if (Math.random() < config.mutation_rate) {
+        mutate_bias(individuo.genoma, config)
+    }
+    if (Math.random() < config.mutation_rate) {
+        mutate_peso(individuo.genoma, config)
     }
 }
