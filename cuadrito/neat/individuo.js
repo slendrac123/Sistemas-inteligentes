@@ -55,7 +55,7 @@ export class Individuo extends Agent {
         }
         return offspring
     }
-    compute(board, time = 1) {
+    compute(board, time = 0) {
         // Always cheks the current board status since opponent move can change several squares in the board
         let neuronas = this.genoma.order_by_layers(this.genoma)
         let values = new Map()
