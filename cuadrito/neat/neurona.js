@@ -11,7 +11,7 @@ export class Neurona {
         }
         this.neuron_id = neuron_id
         this.bias = bias
-        this.activation = activation
+        this.activation = funcionActivacionAleatoria()
     }
     /***
      * mezcla el bias y la función de activación 
@@ -67,7 +67,7 @@ const linear = (x) => x;
 const funcionActivacion = [sigmoid, tanh, relu, leakyRelu, elu, softplus, linear];
 
 // Seleccionar una función de activación aleatoriamente
-const funcionActivacionAleatoria = () => {
+function funcionActivacionAleatoria() {
     let index = Math.floor(Math.random() * funcionActivacion.length);
     return funcionActivacion[index];
 };
