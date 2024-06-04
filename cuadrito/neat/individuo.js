@@ -1,6 +1,6 @@
 import { Genoma } from "./genoma.js"
 import { Agent, Board } from "./ambiente.js"
-import { NUM_INPUTS, NUM_OUTPUTS, SIZE } from "./main.js"
+import { NUM_INPUTS, NUM_OUTPUTS } from "./main.js"
 
 export class Individuo extends Agent {
     /***
@@ -25,10 +25,10 @@ export class Individuo extends Agent {
         return fitness
     }
     crossover(dominante, recesivo) {
-        let offspring = new Genoma(dominante.genoma?.num_inputs, dominante.genoma?.num_outputs);
-        let length_neuronas = dominante.genoma?.neuronas.length
+        let offspring = new Genoma(dominante.genoma.num_inputs, dominante.genoma.num_outputs);
+        let length_neuronas = dominante.genoma.neuronas.length
         for (let i = 0; i < length_neuronas; i++) {
-            let neurona_dom = dominante.genoma?.neuronas[i]
+            let neurona_dom = dominante.genoma.neuronas[i]
             let neuron_id = neurona_dom.neuron_id
             let neurona_rec = recesivo.genoma.find_neurona(neuron_id);
             if (neurona_rec == false) {
@@ -39,9 +39,9 @@ export class Individuo extends Agent {
             }
         }
 
-        let length_links = dominante.genoma?.links.length
+        let length_links = dominante.genoma.links.length
         for (let i = 0; i < length_links; i++) {
-            let enlace_dom = dominante.genoma?.links[i]
+            let enlace_dom = dominante.genoma.links[i]
             let link_input_id = enlace_dom.input_id
             let link_output_id = enlace_dom.output_id
             let enlace_rec = recesivo.genoma.find_link(link_input_id, link_output_id)
@@ -60,10 +60,22 @@ export class Individuo extends Agent {
         let neuronas = this.genoma.order_by_layers(this.genoma)
         let values = new Map()
         for (let i = 0; i < NUM_INPUTS - 2; i++) {
-            values.set(i, board[Math.floor(i / SIZE)][i % SIZE])
+            //si no existe en el tablero la neurona dira 0
+            let a = board[Math.floor(i / this.board.length)]
+            if (a == undefined) {
+                values.set(i, 1)
+                continue
+            }
+            let b = a[i % this.board.length]
+            if (b == undefined) {
+                values.set(i, 1)
+                continue
+            }
+            values.set(i, b)
+
         }
         values.set(NUM_INPUTS - 2, time)
-        values.set(NUM_INPUTS - 1, SIZE)
+        values.set(NUM_INPUTS - 1, this.board.length)
         for (let i = NUM_INPUTS; i < NUM_INPUTS + NUM_OUTPUTS; i++) {
             values.set(i, 0)
         }
@@ -99,20 +111,23 @@ export class Individuo extends Agent {
             values.set(neuronas[i].neuron_id, value)
             outputs.push(Math.floor(value))
         }
+        //console.log(outputs)
+        //console.log(values)
         for (let i = 0; i < 3; i++) {
             if (isNaN(outputs[i])) {
-                console.log(this.genoma)
-                console.log(neuronas)
                 console.log(values)
-                throw ("err")
+                console.log(this.board.length)
+                this.fitness -= 10000
             }
-            if (outputs[i] < 0 || outputs[i] > SIZE) {
-                this.fitness -= 1000
+            if (outputs[i] < 0) {
+                this.fitness += 10 * outputs[i]
+            }
+            if (outputs[i] >= this.board.length) {
+                this.fitness -= 10 * outputs[i]
             }
         }
         var moves = this.board.valid_moves(board)
         if (moves.indexOf(outputs) == -1) {
-            this.fitness -= 1000
             var index = Math.floor(moves.length * Math.random())
             return moves[index]
         }

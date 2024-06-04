@@ -1,7 +1,7 @@
 import { Sinapsis } from "./sinapsis.js"
 import { Neurona } from "./neurona.js"
 import { Configuracion } from "./configuracion.js"
-const MUTATION_RATE = 0.05
+const MUTATION_RATE = 0.2
 
 function mutate_add_link(genoma) {
     //solo de las hidden o input 
@@ -126,14 +126,14 @@ export function mutate(individuo) {
     if (Math.random() < MUTATION_RATE) {
         mutate_add_link(individuo.genoma)
     }
-    if (Math.random() < MUTATION_RATE / 10) {
+    if (Math.random() < MUTATION_RATE) {
         mutate_remove_link(individuo.genoma)
     }
 
     if (Math.random() < MUTATION_RATE) {
         mutate_add_neuron(individuo.genoma)
     }
-    if (Math.random() < MUTATION_RATE / 10) {
+    if (Math.random() < MUTATION_RATE) {
         mutate_remove_neuron(individuo.genoma)
     }
     let config = new Configuracion

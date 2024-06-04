@@ -3,9 +3,10 @@ import { Sinapsis } from './sinapsis.js'
 import { Neurona } from './neurona.js'
 import { ambiente_run } from './ambiente.js'
 import { Individuo } from './individuo.js'
-import { NUM_POBLACION, NUM_INPUTS, NUM_OUTPUTS, SOBREVIVIENTES } from './main.js'
+import { NUM_POBLACION, NUM_INPUTS, NUM_OUTPUTS, SOBREVIVIENTES, max_size, save, } from './main.js'
 import { mutate } from './mutations.js'
 
+const NOMBRE_ARCHIVO = "ganadores.txt"
 export class Population {
     constructor(population_size) {
         this.individuos = []
@@ -45,15 +46,21 @@ export class Population {
     sort_by_fitness() {
         this.individuos.sort((a, b) => b.fitness - a.fitness)
     }
-    run(generaciones, size) {
+    run(generaciones) {
+        let gen = 1
         for (let i = 0; i < generaciones; i++) {
+            this.size = Math.floor(Math.random() * max_size) + 2
+            console.log(this.size)
             for (let i = 0; i < this.individuos.length; i += 2) {
-                ambiente_run(this.individuos[i], this.individuos[i + 1], size)
-                console.log("fitness %d", this.individuos[i].fitness)
-                console.log("fitness %d", this.individuos[i + 1].fitness)
+                ambiente_run(this.individuos[i], this.individuos[i + 1], this.size)
             }
             this.sort_by_fitness()
+            for (let individuo of this.individuos) {
+                console.log(individuo.fitness)
+            }
+            console.log("GENERATION: %d", gen++)
             this.reproduce()
+            save(winners, NOMBRE_ARCHIVO)
         }
         return this.individuos
     }

@@ -190,6 +190,8 @@ export function ambiente_run(agente1, agente2, size) {
     board.length = size
     agente1.init(-1, board, 20000)
     agente2.init(-2, board, 20000)
+    agente1.board.length = size
+    agente2.board.length = size
     let turno_agente1 = true
     let jugando = true
     let winner = ' '

@@ -104,6 +104,7 @@ export class Genoma {
                 }
             }
             if (new_layer.length == 0) {
+                console.log(genoma)
                 console.log(neuronas)
                 throw ("aa")
             }

@@ -5,22 +5,19 @@ import { Population } from "./population.js"
 import * as fs from 'node:fs'
 import { Sinapsis } from "./sinapsis.js"
 
-const max_size = 5
-//const size = Math.floor(Math.random() * max_size) + 1
-export const SIZE = 5
+export const max_size = 100
+//export const SIZE = 5
 //cada una de las casillas, el tiempo y el tamaño 
-export const NUM_INPUTS = SIZE * SIZE + 2
+export const NUM_INPUTS = max_size * max_size + 2
 export const NUM_OUTPUTS = 3
-export const SOBREVIVIENTES = 50
-export const NUM_POBLACION = 1000
-const NUM_GENERACIONES = 100
-const NOMBRE_ARCHIVO = "ganadores.txt"
+export const SOBREVIVIENTES = 10
+export const NUM_POBLACION = 50
+const NUM_GENERACIONES = 10
 let poblacion = new Population(NUM_POBLACION)
 //let poblacion = read(NOMBRE_ARCHIVO)
-let winners = poblacion.run(NUM_GENERACIONES, SIZE)
-save(winners, NOMBRE_ARCHIVO)
+poblacion.run(NUM_GENERACIONES)
 
-function save(genomas, nombre) {
+export function save(genomas, nombre) {
     let data = ""
     for (let genoma of genomas) {
         let str = JSON.stringify(genoma)
