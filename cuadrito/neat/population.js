@@ -48,10 +48,10 @@ export class Population {
     run(generaciones) {
         let gen = 1
         for (let i = 0; i < generaciones; i++) {
-            //this.size = Math.floor(Math.random() * max_size) + 2
-            //console.log(this.size)
+            this.size = Math.floor(Math.random() * max_size) + 2
+            console.log(this.size)
             for (let i = 0; i < this.individuos.length; i += 2) {
-                ambiente_run(this.individuos[i], this.individuos[i + 1], gen % max_size)
+                ambiente_run(this.individuos[i], this.individuos[i + 1], this.size)
             }
             this.sort_by_fitness()
             for (let individuo of this.individuos) {

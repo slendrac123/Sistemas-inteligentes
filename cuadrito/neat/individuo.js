@@ -1,6 +1,6 @@
 import { Genoma } from "./genoma.js"
 import { Agent, Board } from "./ambiente.js"
-import { NUM_INPUTS, NUM_OUTPUTS } from "./main.js"
+import { NUM_INPUTS, NUM_OUTPUTS, max_size } from "./main.js"
 
 export class Individuo extends Agent {
     /***
@@ -61,14 +61,14 @@ export class Individuo extends Agent {
         let values = new Map()
         for (let i = 0; i < NUM_INPUTS - 2; i++) {
             //si no existe en el tablero la neurona dira 0
-            let a = board[Math.floor(i / this.board.length)]
+            let a = board[Math.floor(i / max_size)]
             if (a == undefined) {
-                values.set(i, 1)
+                values.set(i, 0)
                 continue
             }
-            let b = a[i % this.board.length]
+            let b = a[i % max_size]
             if (b == undefined) {
-                values.set(i, 1)
+                values.set(i, 0)
                 continue
             }
             values.set(i, b)
@@ -128,7 +128,7 @@ export class Individuo extends Agent {
         }
         var moves = this.board.valid_moves(board)
         if (moves.indexOf(outputs) == -1) {
-            this.fitness -= 10
+            this.fitness -= 100
             var index = Math.floor(moves.length * Math.random())
             return moves[index]
         }
