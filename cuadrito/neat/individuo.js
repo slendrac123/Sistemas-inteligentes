@@ -128,6 +128,7 @@ export class Individuo extends Agent {
         }
         var moves = this.board.valid_moves(board)
         if (moves.indexOf(outputs) == -1) {
+            this.fitness -= 10
             var index = Math.floor(moves.length * Math.random())
             return moves[index]
         }
