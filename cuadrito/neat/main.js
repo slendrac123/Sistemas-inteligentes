@@ -6,14 +6,14 @@ import * as fs from 'node:fs'
 import { Sinapsis } from "./sinapsis.js"
 
 export const NOMBRE_ARCHIVO = "ganadores.txt"
-export const max_size = 50
+export const max_size = 20
 //export const SIZE = 5
 //cada una de las casillas, el tiempo y el tamaño 
 export const NUM_INPUTS = max_size * max_size + 2
 export const NUM_OUTPUTS = 3
-export const SOBREVIVIENTES = 20
+export const SOBREVIVIENTES = 15
 export const NUM_POBLACION = 100
-const NUM_GENERACIONES = 500
+const NUM_GENERACIONES = 10000
 //let poblacion = new Population(NUM_POBLACION)
 let poblacion = read(NOMBRE_ARCHIVO)
 poblacion.run(NUM_GENERACIONES)

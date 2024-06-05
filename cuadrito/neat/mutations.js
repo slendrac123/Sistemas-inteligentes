@@ -1,9 +1,9 @@
 import { Sinapsis } from "./sinapsis.js"
 import { Neurona } from "./neurona.js"
 import { Configuracion } from "./configuracion.js"
-const MUTATION_RATE = 0.2
+const MUTATION_RATE = 0.1
 
-function mutate_add_link(genoma) {
+function mutate_add_link(genoma, config) {
     //solo de las hidden o input 
     let input_id = genoma.get_hidden_or_input().neuron_id
     let output_id = genoma.get_hidden_or_output().neuron_id
@@ -12,7 +12,7 @@ function mutate_add_link(genoma) {
         if (revisar_ciclos(genoma.links, input_id, output_id)) {
             return
         }
-        let new_link = new Sinapsis(input_id, output_id, 1 - Math.random(), true)
+        let new_link = new Sinapsis(input_id, output_id, config.gaussianRandom(), true)
         genoma.add_link(new_link)
     } else {
         busqueda.is_enabled = true
@@ -74,7 +74,7 @@ function mutate_remove_link(genoma) {
     let remover = genoma.links.splice([Math.floor(Math.random() * genoma.links.length)], 1)
     return remover
 }
-function mutate_add_neuron(genoma) {
+function mutate_add_neuron(genoma, config) {
     if (genoma.links.length == 0) {
         return
     }
@@ -82,7 +82,7 @@ function mutate_add_neuron(genoma) {
     //
     enlace_para_dividir.is_enabled = false
 
-    let new_neurona = new Neurona(1 - Math.random())
+    let new_neurona = new Neurona(config.gaussianRandom())
 
     let enlace_input_id = enlace_para_dividir.input_id
     let enlace_output_id = enlace_para_dividir.output_id
@@ -123,24 +123,25 @@ function mutate_bias(genoma, config) {
 
 }
 export function mutate(individuo) {
+    let config = new Configuracion()
     if (Math.random() < MUTATION_RATE) {
-        mutate_add_link(individuo.genoma)
+        mutate_add_neuron(individuo.genoma, config)
+    }
+    if (Math.random() < MUTATION_RATE) {
+        mutate_add_link(individuo.genoma, config)
+
     }
     if (Math.random() < MUTATION_RATE) {
         mutate_remove_link(individuo.genoma)
     }
 
     if (Math.random() < MUTATION_RATE) {
-        mutate_add_neuron(individuo.genoma)
-    }
-    if (Math.random() < MUTATION_RATE) {
-        mutate_remove_neuron(individuo.genoma)
-    }
-    let config = new Configuracion
-    if (Math.random() < config.mutation_rate) {
-        mutate_bias(individuo.genoma, config)
+        return mutate_remove_neuron(individuo.genoma)
     }
     if (Math.random() < config.mutation_rate) {
-        mutate_peso(individuo.genoma, config)
+        return mutate_bias(individuo.genoma, config)
+    }
+    if (Math.random() < config.mutation_rate) {
+        return mutate_peso(individuo.genoma, config)
     }
 }

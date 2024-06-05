@@ -170,7 +170,7 @@ export class Board {
         if (cr + cy < board.length * board.length) return ' '
         if (cr > cy) return 'R'
         if (cy > cr) return 'Y'
-        return ' '
+        return 'E'
     }
 
     // Draw the board on the canvas
@@ -215,10 +215,6 @@ export function ambiente_run(agente1, agente2, size) {
         turnos++
         turno_agente1 = turno_agente1 ? false : true
         winner = board.winner(board.board)
-        if (board.valid_moves(board.board).length == 0) {
-            return 1
-
-        }
         if (winner != ' ') {
             //console.log(`NUMERO DE TURNOS: ${turnos}`)
             agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color)

@@ -106,8 +106,6 @@ export class Individuo extends Agent {
                 }
                 value += values.get(link.input_id) * link.peso
             }
-            value += neuronas[i].bias
-            value = neuronas[i].get_activation(value, neuronas[i].activation)
             values.set(neuronas[i].neuron_id, value)
             outputs.push(Math.floor(value))
         }
@@ -117,7 +115,7 @@ export class Individuo extends Agent {
             if (isNaN(outputs[i])) {
                 console.log(values)
                 console.log(this.board.length)
-                this.fitness -= 10000
+                this.fitness -= 100
             }
             if (outputs[i] < 0) {
                 this.fitness += 10 * outputs[i]
@@ -128,7 +126,7 @@ export class Individuo extends Agent {
         }
         var moves = this.board.valid_moves(board)
         if (moves.indexOf(outputs) == -1) {
-            this.fitness -= 100
+            //this.fitness -= 10
             var index = Math.floor(moves.length * Math.random())
             return moves[index]
         }

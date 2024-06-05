@@ -5,7 +5,7 @@ export class Sinapsis {
      * peso := double 
      * is_enabled := bool
     ***/
-    constructor(input_id, output_id, peso = Math.random(), is_enabled = true) {
+    constructor(input_id, output_id, peso, is_enabled = true) {
         this.input_id = input_id
         this.output_id = output_id
         this.peso = peso
