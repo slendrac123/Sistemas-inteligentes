@@ -3,7 +3,7 @@ import { Sinapsis } from './sinapsis.js'
 import { Neurona } from './neurona.js'
 import { ambiente_run } from './ambiente.js'
 import { Individuo } from './individuo.js'
-import { NUM_POBLACION, NUM_INPUTS, NUM_OUTPUTS, SOBREVIVIENTES, max_size, save, NOMBRE_ARCHIVO } from './main.js'
+import { NUM_POBLACION, NUM_INPUTS, NUM_OUTPUTS, SOBREVIVIENTES, max_size, save, NOMBRE_ARCHIVO, limit_sup, limit_inf } from './main.js'
 import { mutate } from './mutations.js'
 import { Configuracion } from './configuracion.js'
 
@@ -50,18 +50,22 @@ export class Population {
     run(generaciones) {
         let gen = 1
         for (let i = 0; i < generaciones; i++) {
-            this.size = gen
-            console.log(max_size)
+            //console.log(max_size)
+            let size = 10
             for (let i = 0; i < this.individuos.length; i += 2) {
-                ambiente_run(this.individuos[i], this.individuos[i + 1], (max_size))//- 2 - 17)) + 3)
+                ambiente_run(this.individuos[i], this.individuos[i + 1], size)
+                ambiente_run(this.individuos[i + 1], this.individuos[i], size)
+
+                /*
+                for (let z = i + 1; z < this.individuos.length; z++) {
+                    ambiente_run(this.individuos[i], this.individuos[z], size)
+                    ambiente_run(this.individuos[z], this.individuos[i], size)
+                }
+                */
             }
             this.sort_by_fitness()
-            for (let individuo of this.individuos) {
-                console.log(individuo.genoma.num_hidden())
-                console.log(individuo.fitness)
-            }
-            console.log("GENERATION: %d", gen++)
             this.reproduce()
+            console.log("GENERATION: %d", gen++)
             save(this.individuos, NOMBRE_ARCHIVO)
         }
         return this.individuos
@@ -69,8 +73,11 @@ export class Population {
     reproduce() {
         let ind = new Individuo()
         this.individuos.splice(SOBREVIVIENTES)
-        let spawn_size = NUM_POBLACION - 1 
+        let spawn_size = NUM_POBLACION - 1
         let nueva_poblacion = []
+        console.log("hidden: ", this.individuos[0].genoma.num_hidden())
+        console.log(this.individuos[0].fitness)
+        this.individuos[0].fitness = 0
         nueva_poblacion.push(this.individuos[0])
         while (spawn_size-- > 0) {
             let padre = this.individuos[Math.floor(Math.random() * this.individuos.length)]
@@ -82,4 +89,5 @@ export class Population {
         }
         this.individuos = nueva_poblacion
     }
+
 }

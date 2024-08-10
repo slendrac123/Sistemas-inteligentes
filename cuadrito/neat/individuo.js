@@ -7,18 +7,18 @@ export class Individuo extends Agent {
      * genoma := Genoma
      * fitness := int (sujeto a cambios)
     ***/
-    constructor(genoma) {
+    constructor(genoma, fitness = 0) {
         super()
         this.genoma = genoma
-        this.fitness = 0
+        this.fitness = fitness
         this.board = new Board()
     }
-    func_fitness(board, length, color) {
+    func_fitness(board, length, color, turnos) {
         let fitness = this.fitness
         for (let i = 0; i < length; i++) {
             for (let j = 0; j < length; j++) {
                 if (board[i][j] == color) {
-                    fitness++
+                    fitness += 10000
                 }
             }
         }
@@ -63,15 +63,41 @@ export class Individuo extends Agent {
             //si no existe en el tablero la neurona dira 0
             let a = board[Math.floor(i / max_size)]
             if (a == undefined) {
-                values.set(i, 0)
+
+                values.set(i, -10)
                 continue
             }
             let b = a[i % max_size]
             if (b == undefined) {
-                values.set(i, 0)
+                values.set(i, -10)
                 continue
             }
-            values.set(i, b)
+            if (this.color == -1) {
+                switch (b) {
+                    case -1:
+                        values.set(i, -2)
+                        break
+                    case -2:
+                        values.set(i, -1)
+                        break
+                    default:
+                        values.set(i, b)
+                }
+
+            } else {
+
+                switch (b) {
+                    case -1:
+                        values.set(i, -1)
+                        break
+                    case -2:
+                        values.set(i, -2)
+                        break
+                    default:
+                        values.set(i, b)
+                }
+
+            }
 
         }
         values.set(NUM_INPUTS - 2, time)
@@ -106,31 +132,45 @@ export class Individuo extends Agent {
                 }
                 value += values.get(link.input_id) * link.peso
             }
-            values.set(neuronas[i].neuron_id, value)
+            values.set(neuronas[i].neuron_id, Math.floor(value))
             outputs.push(Math.floor(value))
         }
         //console.log(outputs)
         //console.log(values)
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             if (isNaN(outputs[i])) {
                 console.log(values)
                 console.log(this.board.length)
-                this.fitness -= 100
+                this.fitness -= 1000 
             }
             if (outputs[i] < 0) {
-                this.fitness += 10 * outputs[i]
-            }
-            if (outputs[i] >= this.board.length) {
-                this.fitness -= 10 * outputs[i]
+                this.fitness += outputs[i]
+            } else if (outputs[i] >= this.board.length) {
+                this.fitness -= (outputs[i] - (this.board.length - 1))
             }
         }
+        if (outputs[2] < 0) {
+            this.fitness += 100 * outputs[2]
+        } else if (outputs[2] > 3) {
+            this.fitness -= 100 * (outputs[2] - 3)
+        }
+        /*
+        if (outputs[0] == outputs[1]) {
+            this.fitness -= 1
+        }
+        if (outputs[1] == outputs[2]) {
+            this.fitness -= 1
+        }
+        if (outputs[1] == outputs[3]) {
+            this.fitness -= 1
+        }*/
         var moves = this.board.valid_moves(board)
-        if (moves.indexOf(outputs) == -1) {
-            //this.fitness -= 10
-            var index = Math.floor(moves.length * Math.random())
-            return moves[index]
+        for (let i = 0; i < moves.length; i++) {
+            if (moves[i][0] == outputs[0] && moves[i][1] == outputs[1] && moves[i][2] == outputs[2]) {
+                this.fitness += 1000
+                return outputs
+            }
         }
-        return outputs
-        // Randomly picks one available move
+        return [0, 0, 4]
     }
 }

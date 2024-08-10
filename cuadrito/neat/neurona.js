@@ -1,4 +1,7 @@
-var num_neuronas = 0
+export var num_neuronas = 0
+export function raise_cap_neuronas() {
+    num_neuronas++
+}
 export class Neurona {
     /***
      * neuron_id := int

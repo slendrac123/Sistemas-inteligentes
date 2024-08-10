@@ -184,41 +184,59 @@ export class Board {
     }
 }
 
+var n_board = []
+var turno_agente1 = true
 export function ambiente_run(agente1, agente2, size) {
     let board = new Board()
-    board.board = board.init(size)
     board.length = size
+    if (n_board.length != size) {
+        board.board = board.init(size)
+    } else {
+        board.board = n_board
+    }
+    //board.print(board.board)
     agente1.init(-1, board, 20000)
     agente2.init(-2, board, 20000)
     agente1.board.length = size
     agente2.board.length = size
-    let turno_agente1 = true
     let jugando = true
-    let winner = ' '
+    let winner = board.winner(board.board)
     let turnos = 0
     while (jugando) {
+        turnos++
         if (turno_agente1) {
             let move = agente1.compute(board.board)
             jugando = board.move(board.board, move[0], move[1], move[2], agente1.color)
             if (!jugando) {
-                console.log("el ganador es Y")
+                //agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color, turnos)
+                //agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color, turnos)
+                //console.log(`NUMERO DE TURNOS: ${turnos}`)
+                n_board = board.board
+                n_board = []
+                turno_agente1 = true
                 return 1
             }
         } else {
             let move = agente2.compute(board.board)
             jugando = board.move(board.board, move[0], move[1], move[2], agente2.color)
             if (!jugando) {
-                console.log("el ganador es R")
+                //agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color, turnos)
+                //agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color, turnos)
+                //console.log(`NUMERO DE TURNOS: ${turnos}`)
+                n_board = board.board
+                n_board = []
+                turno_agente1 = true
                 return 0
             }
         }
-        turnos++
         turno_agente1 = turno_agente1 ? false : true
         winner = board.winner(board.board)
         if (winner != ' ') {
-            //console.log(`NUMERO DE TURNOS: ${turnos}`)
-            agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color)
-            agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color)
+            console.log(`NUMERO DE TURNOS: ${turnos}, finalización exitosa!!`)
+            //agente1.fitness = agente1.func_fitness(board.board, board.length, agente1.color, turnos)
+            //agente2.fitness = agente2.func_fitness(board.board, board.length, agente2.color, turnos)
+            n_board = []
+            turno_agente1 = true
             return winner == 'R' ? 0 : 1
         }
     }

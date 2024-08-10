@@ -1,8 +1,8 @@
 const INIT_MEAN = 0.0
 const INIT_STDEV = 1.0
-const MIN = -2.0
-const MAX = 2.0
-const MUTATION_RATE = 0.3
+const MIN = -1.0
+const MAX = 1.0
+export const MUTATION_RATE = 0.05
 const MUTATE_POWER = 1.2
 const REPLACE_RATE = 0.05
 

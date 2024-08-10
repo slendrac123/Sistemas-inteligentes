@@ -1,7 +1,7 @@
 import { Sinapsis } from "./sinapsis.js"
-import { Neurona } from "./neurona.js"
+import { Neurona, raise_cap_neuronas } from "./neurona.js"
 import { Configuracion } from "./configuracion.js"
-const MUTATION_RATE = 0.1
+import { MUTATION_RATE } from './configuracion.js'
 
 function mutate_add_link(genoma, config) {
     //solo de las hidden o input 
@@ -83,6 +83,12 @@ function mutate_add_neuron(genoma, config) {
     enlace_para_dividir.is_enabled = false
 
     let new_neurona = new Neurona(config.gaussianRandom())
+    for (let neurona of genoma.neuronas) {
+        if (new_neurona.neuron_id == neurona.neuron_id) {
+            raise_cap_neuronas()
+            return
+        }
+    }
 
     let enlace_input_id = enlace_para_dividir.input_id
     let enlace_output_id = enlace_para_dividir.output_id
@@ -114,11 +120,17 @@ function mutate_remove_neuron(genoma) {
     genoma.neuronas.splice(index, 1)
 }
 function mutate_peso(genoma, config) {
+    if (genoma.links.length == 0) {
+        return
+    }
     let enlace = genoma.links[Math.floor(Math.random() * genoma.links.length)]
     enlace.peso = config.mutate_delta(enlace.peso)
 }
 function mutate_bias(genoma, config) {
-    let neurona = genoma.neuronas[Math.floor(Math.random() * genoma.neuronas.length)]
+    if (genoma.num_hidden() == 0) {
+        return
+    }
+    let neurona = genoma.get_hidden()
     neurona.bias = config.mutate_delta(neurona.bias)
 
 }
@@ -134,14 +146,13 @@ export function mutate(individuo) {
     if (Math.random() < MUTATION_RATE) {
         mutate_remove_link(individuo.genoma)
     }
-
     if (Math.random() < MUTATION_RATE) {
-        return mutate_remove_neuron(individuo.genoma)
+        mutate_remove_neuron(individuo.genoma)
     }
     if (Math.random() < config.mutation_rate) {
-        return mutate_bias(individuo.genoma, config)
+        mutate_bias(individuo.genoma, config)
     }
     if (Math.random() < config.mutation_rate) {
-        return mutate_peso(individuo.genoma, config)
+        mutate_peso(individuo.genoma, config)
     }
 }

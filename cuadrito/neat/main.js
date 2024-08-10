@@ -6,15 +6,16 @@ import * as fs from 'node:fs'
 import { Sinapsis } from "./sinapsis.js"
 
 export const NOMBRE_ARCHIVO = "ganadores.txt"
-export const max_size = 20
+export const max_size = 10
+export const limit_sup = Math.floor(Math.random() * 8) + 4
+export const limit_inf = Math.floor(Math.random() * 9) + 2
 //export const SIZE = 5
 //cada una de las casillas, el tiempo y el tamaño 
 export const NUM_INPUTS = max_size * max_size + 2
 export const NUM_OUTPUTS = 3
-export const SOBREVIVIENTES = 15
-export const NUM_POBLACION = 100
-const NUM_GENERACIONES = 10000
-//let poblacion = new Population(NUM_POBLACION)
+export const NUM_POBLACION = 1000
+export const SOBREVIVIENTES = 30
+const NUM_GENERACIONES = 1000
 let poblacion = read(NOMBRE_ARCHIVO)
 poblacion.run(NUM_GENERACIONES)
 
@@ -28,7 +29,12 @@ export function save(genomas, nombre) {
 }
 
 function read(nombre) {
-    let str = fs.readFileSync(nombre, { encoding: 'utf-8', flag: 'r' })
+    let str = ''
+    try {
+        str = fs.readFileSync(nombre, { encoding: 'utf-8' })
+    } catch {
+        return new Population(NUM_POBLACION)
+    }
     let genomas = str.split('\n')
     let poblacion = new Population()
     let individuos = []
