@@ -1,24 +1,18 @@
 import { Board, Agent } from "./ambiente"
 
-function valor_estado(estado: Board) {
-    if (Board.winner(estado))
-        return 1;
-}
-
-function generar_hijos(estado: Board) {
-    return [];
-}
 
 class Agente extends Agent {
     board: Board;
     color: string;
+    size: number;
+    time: number
 
     constructor() {
         super()
         this.board = new Board()
     }
 
-    compute(board: Board, time: number) {
+    compute(board: number[], time: number) {
         // Always cheks the current board status since opponent move can change several squares in the board
         var moves = this.board.valid_moves(board)
         // Randomly picks one available move
@@ -28,19 +22,19 @@ class Agente extends Agent {
         return moves[index]
     }
 
-    min_max(estado: Board, profundidad: number, alpha: number, beta: number, maximizando: boolean) {
-        let winner = Board.winner(estado);
+    min_max(estado: number[], profundidad: number, alpha: number, beta: number, maximizando: boolean) {
+        let winner = this.board.winner(estado);
         if (winner != ' ') {
             if (winner == this.color) {
-                return 1;
+                return Infinity;
             }
-            return -1
+            return -Infinity;
 
         }
         // Analizando su movimiento
         if (maximizando) {
             let max_eval = -Infinity;
-            for (let hijo of generar_hijos(estado)) {
+            for (let hijo of this.generar_hijos(estado)) {
                 let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false);
                 max_eval = max_eval > val_minimax ? max_eval : val_minimax;
                 alpha = max_eval > val_minimax ? max_eval : val_minimax;
@@ -53,7 +47,7 @@ class Agente extends Agent {
         // Analizando el movimiento del rival
         else {
             let min_eval = Infinity;
-            for (let hijo of generar_hijos(estado)) {
+            for (let hijo of this.generar_hijos(estado)) {
                 let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false);
                 min_eval = min_eval < val_minimax ? min_eval : val_minimax;
                 beta = beta < val_minimax ? beta : val_minimax;
@@ -65,6 +59,24 @@ class Agente extends Agent {
         }
 
     }
+
+    valor_estado(estado: number[]) {
+        let ret = 0;
+        for (let i = 0; i < estado.length; i++)
+            for (let j = 0; j < estado.length; j++)
+                if (estado[i][j] < 0) {
+                    if (estado[i][j] == -1) { ret++ } else { ret-- }
+                }
+        return ret;
+    }
+    generar_hijos(estado: number[]) {
+        let arr = [];
+        for (let move of this.board.valid_moves()) {
+            this.board.move(move);
+        }
+        return arr;
+    }
+
 }
 
 

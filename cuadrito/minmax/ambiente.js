@@ -159,7 +159,7 @@ export class Board {
     }
 
     // Determines the winner of the game if available 'R': red, 'Y': yellow, ' ': none
-    static winner(board) {
+    winner(board) {
         var cr = 0
         var cy = 0
         for (var i = 0; i < board.length; i++)
