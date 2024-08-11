@@ -14,8 +14,10 @@ class Individuo extends Agent {
         let ret = 0;
         for (var i = 0; i < estado.length; i++) {
             for (var j = 0; j < estado.length; j++) {
-                if (estado[i][j] == 15) { ret -= 4; }
-                if (estado[i][j] == 14 || estado[i][j] == 13 || estado[i][j] == 11 || estado[i][j] == 7) { ret -= 2; }
+                if (estado[i][j] == 15) { ret -= 5; }
+                if (estado[i][j] == 14 || estado[i][j] == 13 || estado[i][j] == 11 || estado[i][j] == 7) { ret -= 5; }
+                //no se si seria posible quitar 10 y 5
+                if (estado[i][j] == 12 || estado[i][j] == 9 || estado[i][j] == 6 || estado[i][j] == 3 || estado[i][j] == 10 || estado[i][j] == 5) { ret += 5; }
                 if (estado[i][j] < 0) {
                     if (estado[i][j] == -1) { ret += 10 } else { ret -= 10 }
                 }
