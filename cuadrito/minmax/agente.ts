@@ -48,7 +48,7 @@ class Agente extends Agent {
         else {
             let min_eval = Infinity;
             for (let hijo of this.generar_hijos(estado)) {
-                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false);
+                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, true);
                 min_eval = min_eval < val_minimax ? min_eval : val_minimax;
                 beta = beta < val_minimax ? beta : val_minimax;
                 if (beta <= alpha) {
@@ -69,10 +69,12 @@ class Agente extends Agent {
                 }
         return ret;
     }
-    generar_hijos(estado: number[]) {
+    generar_hijos(estado: number[], color: string) {
         let arr = [];
         for (let move of this.board.valid_moves()) {
-            this.board.move(move);
+            let new_estado = this.board.clone(estado);
+            this.board.move(new_estado, move[0], move[1], move[2], color);
+            arr.push(new_estado);
         }
         return arr;
     }
