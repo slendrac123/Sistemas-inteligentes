@@ -1,11 +1,12 @@
-const LIMIT = 100
-const PROFUNDIDAD = 5;
 
 class Individuo extends Agent {
     constructor() {
         super();
         this.board = new Board();
         this.counter = this.size / 2;
+        this.alpha_beta = [Infinity, -Infinity];
+        this.limit = 100;
+        this.profundidad = 5;
     }
 
     //NUESTRA FUNCION FITNESS
@@ -28,15 +29,14 @@ class Individuo extends Agent {
 
         let best_score = -Infinity;
         let best_move;
-        let alpha_beta = [Infinity, -Infinity]
         let limit = 0;
         for (let move of this.board.valid_moves(board)) {
-            if (limit++ == LIMIT) {
+            if (limit++ == this.limit) {
                 break;
             }
             let n_board = this.board.clone(board);
             this.board.move(n_board, move[0], move[1], move[2], this.color);
-            let score = this.min_max(n_board, PROFUNDIDAD, alpha_beta, true);
+            let score = this.min_max(n_board, this.profundidad, this.alpha_beta, true);
             if (best_score < score) {
                 console.log(score);
                 best_score = score;
@@ -82,7 +82,7 @@ class Individuo extends Agent {
         let arr = [];
         let i = 0;
         for (let move of this.board.valid_moves(estado)) {
-            if (i++ == LIMIT) break;
+            if (i++ == this.limit) break;
             let new_estado = this.board.clone(estado);
             this.board.move(new_estado, move[0], move[1], move[2], color);
             arr.push(new_estado);
