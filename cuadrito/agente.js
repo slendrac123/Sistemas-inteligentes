@@ -5,24 +5,24 @@ class Individuo extends Agent {
         this.board = new Board();
         this.counter = this.size / 2;
         this.alpha_beta = [Infinity, -Infinity];
-        this.limit = 100;
+        this.limit = 50;
         this.profundidad = 5;
     }
 
-    //NUESTRA FUNCION FITNESS
+    //FUNCION FITNESS
     valor_estado(estado, color) {
         let ret = 0;
         for (var i = 0; i < estado.length; i++) {
             for (var j = 0; j < estado.length; j++) {
                 if (estado[i][j] < 0) {
-                    if (estado[i][j] == -1) { ret++ } else { ret-- }
+                    if (estado[i][j] == -1) { ret += 5 } else { ret -= 5 }
                 }
             }
         }
         return color == 'R' ? ret : -ret;
     }
     compute(board, time) {
-        // Always checks the current board status since opponent move can change several squares in the board
+        //this.limit = board.length;
         if (time < 0.1) {
             return this.board.valid_moves[0];
         }
@@ -30,15 +30,16 @@ class Individuo extends Agent {
         let best_score = -Infinity;
         let best_move;
         let limit = 0;
-        for (let move of this.board.valid_moves(board)) {
+        let moves = this.board.valid_moves(board);
+        for (let i = 0; i < moves.length; i++) {
             if (limit++ == this.limit) {
                 break;
             }
+            let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
             let n_board = this.board.clone(board);
             this.board.move(n_board, move[0], move[1], move[2], this.color);
             let score = this.min_max(n_board, this.profundidad, this.alpha_beta, true);
             if (best_score < score) {
-                console.log(score);
                 best_score = score;
                 best_move = move;
             }
@@ -80,9 +81,14 @@ class Individuo extends Agent {
 
     generar_hijos(estado, color) {
         let arr = [];
-        let i = 0;
-        for (let move of this.board.valid_moves(estado)) {
-            if (i++ == this.limit) break;
+        let limit = 0;
+        let moves = this.board.valid_moves(estado);
+        for (let i = 0; i < moves.length; i++) {
+            if (limit++ == this.limit) {
+                break;
+            }
+            let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
+            if (limit++ == this.limit) break;
             let new_estado = this.board.clone(estado);
             this.board.move(new_estado, move[0], move[1], move[2], color);
             arr.push(new_estado);
