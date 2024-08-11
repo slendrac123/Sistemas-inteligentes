@@ -4,8 +4,8 @@ class Individuo extends Agent {
         super();
         this.board = new Board();
         this.counter = this.size / 2;
-        this.alpha_beta = [Infinity, -Infinity];
-        this.limit = 50;
+        this.alpha_beta = [-Infinity, Infinity];
+        this.limit = 100;
         this.profundidad = 5;
     }
 
@@ -14,8 +14,10 @@ class Individuo extends Agent {
         let ret = 0;
         for (var i = 0; i < estado.length; i++) {
             for (var j = 0; j < estado.length; j++) {
+                if (estado[i][j] == 15) { ret -= 4; }
+                if (estado[i][j] == 14 || estado[i][j] == 13 || estado[i][j] == 11 || estado[i][j] == 7) { ret -= 2; }
                 if (estado[i][j] < 0) {
-                    if (estado[i][j] == -1) { ret += 5 } else { ret -= 5 }
+                    if (estado[i][j] == -1) { ret += 10 } else { ret -= 10 }
                 }
             }
         }
@@ -23,6 +25,7 @@ class Individuo extends Agent {
     }
     compute(board, time) {
         //this.limit = board.length;
+        this.alpha_beta = [-Infinity, Infinity];
         if (time < 0.1) {
             return this.board.valid_moves[0];
         }
@@ -80,8 +83,8 @@ class Individuo extends Agent {
 
 
     generar_hijos(estado, color) {
-        let arr = [];
         let limit = 0;
+        let arr = []
         let moves = this.board.valid_moves(estado);
         for (let i = 0; i < moves.length; i++) {
             if (limit++ == this.limit) {
