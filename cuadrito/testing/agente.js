@@ -4,159 +4,534 @@ class Individuo extends Agent {
     constructor() {
         super();
         this.board = new Board();
-        this.limit = 100;
         this.profundidad = 3;
+        this.limit = 100;
     }
     //FUNCION FITNESS
     valor_estado(estado, color) {
-        let ret = 0;
+        let neutral = 0;
         let red = 0;
         let yellow = 0;
-        for (var i = 0; i < estado.length; i++) {
-            for (var j = 0; j < estado.length; j++) {
+        for (let i = 0; i < estado.length; i++) {
+            for (let j = 0; j < estado.length; j++) {
                 switch (estado[i][j]) {
                     case -1:
-                        red += 15;
+                        red += 7;
+                        yellow -= 7;
                         break;
                     case -2:
-                        yellow += 15;
+                        yellow += 7;
+                        red -= 7;
                         break;
-                    case 3:
-                        ret += 1;
-                        break;
-                    case 5:
-                        ret += 1;
-                        break;
-                    case 6:
-                        ret += 1;
+                    case 0:
                         break;
                     case 7:
-                        ret -= 5;
-                        break;
-                    case 9:
-                        ret += 1;
-                        break
-                    case 10:
-                        ret += 1;
-                        break;
-                    case 11:
-                        ret -= 5;
-                        break;
-                    case 12:
-                        ret += 1;
-                        break;
-                    case 13:
-                        ret -= 5;
-                        break;
-                    case 14:
-                        ret -= 5;
-                        if (i > 0) {
-                            switch (board[i - 1][j]) {
-                                case 3:
-                                    ret -= 5;
+                        neutral += 5;
+                        if (j > 0) {
+                            switch (estado[i][j - 1]) {
+                                case 5:
+                                    neutral += 5;
                                     break;
                                 case 9:
-                                    ret -= 5;
+                                    neutral += 5;
+                                    break;
+                                case 11:
+                                    neutral += 5;
                                     break;
                                 case 12:
+                                    class Individuo extends Agent {
+                                        constructor() {
+                                            super();
+                                            this.board = new Board();
+                                            this.profundidad = 3;
+                                        }
+                                        //FUNCION FITNESS
+                                        valor_estado(estado, color) {
+                                            let neutral = 0;
+                                            let red = 0;
+                                            let yellow = 0;
+                                            for (let i = 0; i < estado.length; i++) {
+                                                for (let j = 0; j < estado.length; j++) {
+                                                    switch (estado[i][j]) {
+                                                        case -1:
+                                                            red += 7;
+                                                            yellow -= 7;
+                                                            break;
+                                                        case -2:
+                                                            yellow += 7;
+                                                            red -= 7;
+                                                            break;
+                                                        case 0:
+                                                            break;
+                                                        case 7:
+                                                            neutral += 5;
+                                                            if (j > 0) {
+                                                                switch (estado[i][j - 1]) {
+                                                                    case 5:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 9:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 11:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 12:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 13:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 11:
+                                                            neutral += 5;
+                                                            if (i < this.board.length - 1) {
+                                                                switch (estado[i + 1][j]) {
+                                                                    case 6:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 10:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 12:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 13:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 14:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 13:
+                                                            neutral += 5;
+                                                            if (j < this.board.length - 1) {
+                                                                switch (estado[i][j + 1]) {
+                                                                    case 3:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 5:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 6:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 7:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 14:
+                                                            neutral += 5;
+                                                            if (i > 0) {
+                                                                switch (estado[i - 1][j]) {
+                                                                    case 3:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 7:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 9:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 10:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 11:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 15:
+                                                            neutral += 5;
+                                                            if (j > 0) {
+                                                                switch (estado[i][j - 1]) {
+                                                                    case 5:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 9:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 11:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 12:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 13:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            if (i < this.board.length - 1) {
+                                                                switch (estado[i + 1][j]) {
+                                                                    case 6:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 10:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 12:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 13:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 14:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            if (j < this.board.length - 1) {
+                                                                switch (estado[i][j + 1]) {
+                                                                    case 3:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 5:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 6:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 7:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            if (i > 0) {
+                                                                switch (estado[i - 1][j]) {
+                                                                    case 3:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 7:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 9:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 10:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                    case 11:
+                                                                        neutral += 5;
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                            if (this.color != color) {
+                                                neutral *= -1;
+                                            }
+                                            if (this.color == 'R') {
+                                                return red + neutral;
+                                            }
+                                            return yellow + neutral;
+                                        }
+                                        compute(board, time) {
+                                            //this.limit = board.length;
+                                            //this.limit = 50;
+                                            this.limit = Math.cbrt(1 / (board.length * board.length * board.length)) * time / 10;
+                                            let alpha = -Infinity;
+                                            let beta = Infinity;
+                                            return this.min_max(board, this.profundidad, alpha, beta, true, [], this.color)[1];
+                                        }
+
+                                        min_max(estado, profundidad, alpha, beta, maximizando, c_move, color) {
+                                            let winner = this.board.winner(estado);
+                                            if (winner != ' ' || profundidad == 0) {
+                                                return [this.valor_estado(estado, color), c_move];
+                                            }
+                                            let best_move;
+                                            let limit = 0;
+                                            let moves = this.board.valid_moves(estado);
+                                            if (maximizando == true) {
+                                                let max_eval = -Infinity;
+                                                while (moves.length > 0) {
+                                                    if (limit++ > this.limit) break;
+                                                    //let move = moves.splice(0, 1)[0];
+                                                    let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
+                                                    let hijo = this.board.clone(estado);
+                                                    this.board.move(hijo, move[0], move[1], move[2], this.color == 'R' ? -1 : -2);
+                                                    let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false, move, this.color);
+                                                    if (val_minimax[0] > max_eval) {
+                                                        best_move = val_minimax[1];
+                                                        max_eval = val_minimax[0];
+                                                    }
+                                                    alpha = Math.max(alpha, val_minimax[0]);
+                                                    if (beta <= alpha) {
+                                                        break;
+                                                    }
+                                                }
+                                                return [max_eval, best_move];
+                                            }
+                                            else {
+                                                let min_eval = Infinity;
+                                                while (moves.length > 0) {
+                                                    if (limit++ > this.limit) break;
+                                                    //let move = moves.splice(0, 1)[0];
+                                                    let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
+                                                    let hijo = this.board.clone(estado);
+                                                    this.board.move(hijo, move[0], move[1], move[2], this.color == 'R' ? -2 : -1);
+                                                    let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, true, move, this.color == 'R' ? 'Y' : 'R');
+
+                                                    if (val_minimax[0] < min_eval) {
+                                                        best_move = val_minimax[1];
+                                                        min_eval = val_minimax[0];
+                                                    }
+                                                    beta = Math.min(beta, val_minimax[0]);
+                                                    if (beta <= alpha) {
+                                                        break;
+                                                    }
+                                                }
+                                                return [min_eval, best_move];
+                                            }
+                                        }
+
+
+                                    }
+
+                                    neutral += 5;
+                                    break;
+                                case 13:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        break;
+                    case 11:
+                        neutral += 5;
+                        if (i < this.board.length - 1) {
+                            switch (estado[i + 1][j]) {
+                                case 6:
+                                    neutral += 5;
+                                    break;
+                                case 10:
+                                    neutral += 5;
+                                    break;
+                                case 12:
+                                    neutral += 5;
+                                    break;
+                                case 13:
+                                    neutral += 5;
+                                    break;
+                                case 14:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        break;
+                    case 13:
+                        neutral += 5;
+                        if (j < this.board.length - 1) {
+                            switch (estado[i][j + 1]) {
+                                case 3:
+                                    neutral += 5;
+                                    break;
+                                case 5:
+                                    neutral += 5;
+                                    break;
+                                case 6:
+                                    neutral += 5;
+                                    break;
+                                case 7:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        break;
+                    case 14:
+                        neutral += 5;
+                        if (i > 0) {
+                            switch (estado[i - 1][j]) {
+                                case 3:
+                                    neutral += 5;
+                                    break;
+                                case 7:
+                                    neutral += 5;
+                                    break;
+                                case 9:
+                                    neutral += 5;
+                                    break;
+                                case 10:
+                                    neutral += 5;
+                                    break;
+                                case 11:
+                                    neutral += 5;
                                     break;
                             }
                         }
                         break;
                     case 15:
-                        ret -= 5;
+                        neutral += 5;
+                        if (j > 0) {
+                            switch (estado[i][j - 1]) {
+                                case 5:
+                                    neutral += 5;
+                                    break;
+                                case 9:
+                                    neutral += 5;
+                                    break;
+                                case 11:
+                                    neutral += 5;
+                                    break;
+                                case 12:
+                                    neutral += 5;
+                                    break;
+                                case 13:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        if (i < this.board.length - 1) {
+                            switch (estado[i + 1][j]) {
+                                case 6:
+                                    neutral += 5;
+                                    break;
+                                case 10:
+                                    neutral += 5;
+                                    break;
+                                case 12:
+                                    neutral += 5;
+                                    break;
+                                case 13:
+                                    neutral += 5;
+                                    break;
+                                case 14:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        if (j < this.board.length - 1) {
+                            switch (estado[i][j + 1]) {
+                                case 3:
+                                    neutral += 5;
+                                    break;
+                                case 5:
+                                    neutral += 5;
+                                    break;
+                                case 6:
+                                    neutral += 5;
+                                    break;
+                                case 7:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
+                        if (i > 0) {
+                            switch (estado[i - 1][j]) {
+                                case 3:
+                                    neutral += 5;
+                                    break;
+                                case 7:
+                                    neutral += 5;
+                                    break;
+                                case 9:
+                                    neutral += 5;
+                                    break;
+                                case 10:
+                                    neutral += 5;
+                                    break;
+                                case 11:
+                                    neutral += 5;
+                                    break;
+                            }
+                        }
                         break;
                 }
             }
         }
-        return color == 'R' ? (ret + red) : (ret + yellow)
-    }
-    compute(board, time) {
-        //this.limit = board.length;
-        let alpha = this.valor_estado(board) + 1;
-        let beta = alpha + board.length;
-        let move = this.min_max(board, this.profundidad, alpha, beta, true);
-        console.log(move[2]);
-        return move[1]
+        if (this.color != color) {
+            neutral *= -1;
+        }
+        if (this.color == 'R') {
+            return red + neutral;
+        }
+        return yellow + neutral;
     }
 
-    min_max(estado, profundidad, alpha, beta, maximizando, move) {
+    compute(board, time) {
+        //this.limit = board.length;
+        //this.limit = 50;
+        let alpha = -Infinity;
+        let beta = Infinity;
+        return this.min_max(board, this.profundidad, alpha, beta, true, [], this.color)[1];
+    }
+
+    min_max(estado, profundidad, alpha, beta, maximizando, c_move, color) {
         let winner = this.board.winner(estado);
         if (winner != ' ' || profundidad == 0) {
-            return [this.valor_estado(estado, this.color), move, alpha, beta];
+            return [this.valor_estado(estado, color), c_move];
         }
         let best_move;
         let limit = 0;
         let moves = this.board.valid_moves(estado);
-        if (maximizando) {
+        if (maximizando == true) {
             let max_eval = -Infinity;
             while (moves.length > 0) {
-                if (limit++ == this.limit) break;
+                if (limit++ > this.limit) break;
+                //let move = moves.splice(0, 1)[0];
                 let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
                 let hijo = this.board.clone(estado);
-                this.board.move(hijo, move[0], move[1], move[2], this.color);
-                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false, move);
+                this.board.move(hijo, move[0], move[1], move[2], this.color == 'R' ? -1 : -2);
+                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, false, move, this.color);
                 if (val_minimax[0] > max_eval) {
                     best_move = val_minimax[1];
                     max_eval = val_minimax[0];
                 }
-                if (alpha < val_minimax[0]) {
-                    alpha = val_minimax[0];
-                    //console.log(`alpha: ${alpha}`);
-                }
-                //alpha = Math.max(alpha, val_minimax[0]);
+                alpha = Math.max(alpha, val_minimax[0]);
                 if (beta <= alpha) {
                     break;
                 }
             }
-            return [max_eval, best_move, alpha, beta];
+            return [max_eval, best_move];
         }
         else {
             let min_eval = Infinity;
-            let limit = 0;
             while (moves.length > 0) {
-                if (limit++ == this.limit) break;
+                if (limit++ > this.limit) break;
+                //let move = moves.splice(0, 1)[0];
                 let move = (moves.splice(Math.floor(Math.random() * moves.length), 1))[0];
                 let hijo = this.board.clone(estado);
-                this.board.move(hijo, move[0], move[1], move[2], this.color == 'R' ? 'Y' : 'R');
-                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, true, move);
+                this.board.move(hijo, move[0], move[1], move[2], this.color == 'R' ? -2 : -1);
+                let val_minimax = this.min_max(hijo, profundidad - 1, alpha, beta, true, move, this.color == 'R' ? 'Y' : 'R');
 
                 if (val_minimax[0] < min_eval) {
-                    best_move = move;
+                    best_move = val_minimax[1];
                     min_eval = val_minimax[0];
                 }
-                if (beta > val_minimax[0]) {
-                    beta = val_minimax[0];
-                    //console.log(`beta: ${beta}`);
-                }
-                //beta = Math.min(beta, val_minimax[0]);
+                beta = Math.min(beta, val_minimax[0]);
                 if (beta <= alpha) {
                     break;
-                } else {
-                    //console.log("something");
                 }
             }
-            return [min_eval, best_move, alpha, beta];
+            return [min_eval, best_move];
         }
     }
 }
-
 class RandomPlayer extends Agent {
+
     constructor() {
-        super()
-        this.board = new Board()
+        super();
+        this.board = new Board();
+        this.profundidad = 3;
+    }
+    compute(board, time) {
+        let moves = this.board.valid_moves(board);
+        return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    compute(board, time) {
-        // Always cheks the current board status since opponent move can change several squares in the board
-        var moves = this.board.valid_moves(board)
-        // Randomly picks one available move
-        var index = Math.floor(moves.length * Math.random())
-        return moves[index]
-    }
+
 }
 
-let ind1 = new Individuo();
+let individuo = new Individuo();
 let random = new RandomPlayer();
 
-console.log("ganador" + ambiente_run(ind1, random, 20));
+console.log("ganador: " + ambiente_run(individuo, random, 20));
