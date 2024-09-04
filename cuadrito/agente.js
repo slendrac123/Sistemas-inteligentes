@@ -118,17 +118,14 @@ class Individuo extends Agent {
     let moves = this.board.valid_moves(board);
     let computacion = 100000000;
     this.limit = board.length > 30 ? 30 : board.length < 10 ? 10 : board.length;
-    console.log(
-      Math.floor(
-        Math.abs(Math.log(computacion / Math.pow(board.length, 4))) -
-          Math.abs(Math.log(this.limit))
-      ) + 1
-    );
     this.profundidad =
       Math.floor(
         Math.abs(Math.log(computacion / Math.pow(board.length, 4))) -
           Math.abs(Math.log(this.limit))
       ) + 1;
+    if (this.profundidad < 1) {
+      this.profundidad = 1;
+    }
     if (time < 1000) {
       return moves[Math.floor(Math.random() * moves.length)];
     }
