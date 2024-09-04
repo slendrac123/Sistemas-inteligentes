@@ -3,7 +3,7 @@ class Individuo extends Agent {
         super();
         this.board = new Board();
         this.alpha_beta = [-Infinity, Infinity];
-        this.limit = 100;
+        this.limit = 200;
         this.profundidad = 2;
     }
 
@@ -15,27 +15,29 @@ class Individuo extends Agent {
                 for (let j = 0; j < estado.length; j++) {
                     switch (estado[i][j]) {
                         case -1:  // Red completed a box
-                            score += color == 'R' ? 10 : -10;
+                            score += color == 'R' ? 20 : -20;
                             break;
                         case -2:  // Yellow completed a box
-                            score += color == 'Y' ? 10 : -10;
+                            score += color == 'Y' ? 20 : -20;
                             break;
-                        case 3:   
-                        case 5:   
-                        case 6:   
-                            score += 2;  
+                        case 3:
+                            score += 5;
                             break;
-                        case 7:   
+                        case 5:
+                        case 6:
+                            score += 3;
+                            break;
+                        case 7:
                         case 9:
                         case 10:
-                            score -= 2;  
+                            score -= 3;
                             break;
-                        case 11:  
+                        case 11:
                         case 12:
                         case 13:
                         case 14:
                         case 15:
-                            score -= 5;  // Stronger penalty for bad moves
+                            score -= 10;  // Stronger penalty for bad moves
                             break;
                     }
                 }
@@ -46,27 +48,29 @@ class Individuo extends Agent {
                 for (let j = 0; j < estado.length; j++) {
                     switch (estado[i][j]) {
                         case -1:  // Yellow completed a box
-                            score += color == 'Y' ? 10 : -10;
+                            score += color == 'Y' ? 20 : -20;
                             break;
                         case -2:  // Red completed a box
-                            score += color == 'R' ? 10 : -10;
+                            score += color == 'R' ? 20 : -20;
                             break;
-                        case 3:   
-                        case 5:   
-                        case 6:   
-                            score += 2;  
+                        case 3:
+                            score += 5;
                             break;
-                        case 7:   
+                        case 5:
+                        case 6:
+                            score += 3;
+                            break;
+                        case 7:
                         case 9:
                         case 10:
-                            score -= 2;  
+                            score -= 3;
                             break;
-                        case 11: 
+                        case 11:
                         case 12:
                         case 13:
                         case 14:
                         case 15:
-                            score -= 5;  // Stronger penalty for bad moves
+                            score -= 10;  // Stronger penalty for bad moves
                             break;
                     }
                 }
