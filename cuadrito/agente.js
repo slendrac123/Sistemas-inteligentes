@@ -2,7 +2,7 @@ class Individuo extends Agent {
   constructor() {
     super();
     this.board = new Board();
-    this.profundidad = Infinity;
+    this.profundidad = 6;
   }
   //FUNCION FITNESS
   contar_combos(estado, i, j) {
@@ -77,23 +77,27 @@ class Individuo extends Agent {
             yellow += 10;
             red -= 10;
             break;
-          case 0:
-            break;
-          /*esto deberia hacerse recursivamente*/
           case 7:
-            neutral += this.contar_combos(estado, i, j);
+            //neutral += this.contar_combos(estado, i, j);
+            neutral += 1;
             break;
           case 11:
-            neutral += this.contar_combos(estado, i, j);
+            //neutral += this.contar_combos(estado, i, j);
+            neutral += 1;
             break;
           case 13:
-            neutral += this.contar_combos(estado, i, j);
+            //neutral += this.contar_combos(estado, i, j);
+            neutral += 1;
             break;
           case 14:
-            neutral += this.contar_combos(estado, i, j);
+            //neutral += this.contar_combos(estado, i, j);
+            neutral += 1;
             break;
           case 15:
-            neutral += this.contar_combos(estado, i, j);
+            //neutral += this.contar_combos(estado, i, j);
+            neutral += 1;
+            break;
+          default:
             break;
         }
       }
@@ -111,13 +115,16 @@ class Individuo extends Agent {
     //this.limit = board.length;
     // O(length¹ * limit^profundidad)
     //limit = profundidad_root(1/length²) * c
-    moves = this.board.valid_moves();
+    let moves = this.board.valid_moves(board);
+    this.limit = board.length > 30 ? 30 : board.length < 10 ? 10 : board.length;
+    console.log(moves.length);
+    console.log(board.length);
+    console.log(moves.length * board.length);
     if (time < 1000) {
-      return moves[Math.random(Math.random() * moves.length)];
-    } else if (moves.length * board.length > 10000000) {
-      return moves[Math.random(Math.random() * moves.length)];
+      return moves[Math.floor(Math.random() * moves.length)];
+    } else if (moves.length * board.length > 300000) {
+      return moves[Math.floor(Math.random() * moves.length)];
     }
-    console.log(this.limit);
     let alpha = -Infinity;
     let beta = Infinity;
     return this.min_max(board, this.profundidad, alpha, beta, true, [])[1];
